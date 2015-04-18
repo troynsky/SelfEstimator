@@ -25,7 +25,7 @@ public class SelfEstimator {
             config.setTermFileName(properties.getProperty("terms"));
             config.setTermTagsFileName(properties.getProperty("termTags"));
             config.setUserSkillsFileName(properties.getProperty("termSkills"));
-        } else {
+        } else if (properties.getProperty("storageType").equals("DataBase")) {
             config.setStorageType(StorageType.DataBase);
             config.setDBConnectionString(properties.getProperty("postgresql"));
         }

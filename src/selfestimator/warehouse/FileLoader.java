@@ -24,7 +24,7 @@ public class FileLoader implements ILoadData {
         userSkills = new UserSkills(loaderConfig.getUserName());
     }
 
-    private Map<String, Tag> LoadCoreTags() throws Exception {
+    private Map<String, Tag> loadCoreTags() throws Exception {
         HashMap<String, Tag> result = new HashMap<>();
         try {
             List<String> tagNames = getTagNamesFromFile();
@@ -42,7 +42,7 @@ public class FileLoader implements ILoadData {
      * и так далее. Мы верим, что всё будет хорошо. ^_^
      * А когда всё неизбежно станет плохо - мы убежим к работе с БД.
      */
-    private Map<String, Term> LoadCoreTerms() throws Exception {
+    private Map<String, Term> loadCoreTerms() throws Exception {
         HashMap<String, Term> terms = new HashMap<>();
         try {
             List<String> termNames = getTermNamesFromFile();
@@ -69,7 +69,7 @@ public class FileLoader implements ILoadData {
         return terms;
     }
 
-    private void SaveCoreTags(Map<String, Tag> tags) throws Exception {
+    private void saveCoreTags(Map<String, Tag> tags) throws Exception {
         List<String> list = new ArrayList<>();
         for (Map.Entry<String, Tag> pair : tags.entrySet()) {
             String key = pair.getKey();
@@ -78,7 +78,7 @@ public class FileLoader implements ILoadData {
         write(loaderConfig.getTagFileName(), list);
     }
 
-    private void SaveCoreTerms(Map<String, Term> terms) throws Exception {
+    private void saveCoreTerms(Map<String, Term> terms) throws Exception {
         List<String> termNames = new ArrayList<>();
         List<String> termTags = new ArrayList<>();
         for (Map.Entry<String, Term> pair : terms.entrySet()) {
@@ -146,7 +146,7 @@ public class FileLoader implements ILoadData {
         }
     }
 
-    private void SaveUserSkills(UserSkills userSkills) {
+    private void saveUserSkills(UserSkills userSkills) {
         List<String> list = new ArrayList<>();
         list.add(userSkills.getUserName());
         for (Map.Entry<String, Skill> pair : userSkills.getSkills()) {
@@ -157,7 +157,7 @@ public class FileLoader implements ILoadData {
         write(loaderConfig.getUserSkillsFileName(), list);
     }
 
-    private UserSkills WriteUserSkills(String userName) throws FileNotFoundException {
+    private UserSkills writeUserSkills(String userName) throws FileNotFoundException {
         List<String> lines = readAllLinesFromFile(loaderConfig.getUserSkillsFileName());
         UserSkills userSkills = new UserSkills(lines.get(0));
         for (String ss : lines) {  //        for (String ss : lines.subList( 1, lines.size())){
@@ -241,6 +241,7 @@ public class FileLoader implements ILoadData {
 
     @Override
     public Map<String, Term> getTerms() throws Exception {
+       // if(userSkills.getUserName().equals())
         return coreTerms;
     }
 
@@ -279,9 +280,9 @@ public class FileLoader implements ILoadData {
 
     private void saveAllData() throws Exception {
         //TODO: save all data
-        SaveCoreTags(coreTags);
-        SaveCoreTerms(coreTerms);
-        SaveUserSkills(userSkills);
+        saveCoreTags(coreTags);
+        saveCoreTerms(coreTerms);
+        saveUserSkills(userSkills);
         Calendar c = Calendar.getInstance().getInstance();
         c.setTime(new Date());
         c.add(Calendar.MINUTE, 10);

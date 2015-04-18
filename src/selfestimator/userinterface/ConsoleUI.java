@@ -17,7 +17,6 @@ public class ConsoleUI implements IRunApplication {
     private BufferedReader br;
     private StockKeeper keeper;
     private boolean haveToExit = false;
-    private FileLoader fileLoader;
 
     @Override
     public void run(IConfig config) throws Exception {

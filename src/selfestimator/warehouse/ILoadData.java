@@ -8,7 +8,7 @@ import selfestimator.corelogic.logic.UserSkills;
 import java.util.Map;
 
 public interface ILoadData {
-    public void init(IConfigLoader loaderConfig);
+    public void init(IConfigLoader loaderConfig) throws Exception;
 
     public void addTag(Tag tag)throws Exception;
     public boolean deleteTagSoft(Tag tag)throws Exception;

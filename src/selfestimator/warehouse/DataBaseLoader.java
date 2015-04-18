@@ -26,6 +26,11 @@ public class DataBaseLoader implements ILoadData {
     }
 
     @Override
+    public void init(IConfigLoader loaderConfig) throws Exception {
+        getOrInsertUserIdByName(loaderConfig.getUserName());
+    }
+
+    @Override
     public Map<String, Tag> getTags() throws Exception {
         Map<String, Tag> resultMap = new TreeMap<>();
         queryWrapper.openConnection();
@@ -126,9 +131,6 @@ public class DataBaseLoader implements ILoadData {
 
     }
 
-    @Override
-    public void init(IConfigLoader loaderConfig) {
-    }
 
     @Override
     public boolean deleteTagSoft(Tag tag) throws Exception {
@@ -140,13 +142,13 @@ public class DataBaseLoader implements ILoadData {
     }
 
     @Override
-    public void deleteTagHard(Tag tag) throws Exception{
+    public void deleteTagHard(Tag tag) throws Exception {
         deleteTagFromAllTerms(tag);
         deleteTagSoft(tag);
     }
 
     @Override
-    public boolean deleteTermSoft(Term term) throws Exception{
+    public boolean deleteTermSoft(Term term) throws Exception {
         queryWrapper.openConnection();
         String termName = term.getName();
         boolean result = queryWrapper.executeNonQueryNoException("DELETE FROM public.\"Terms\" WHERE (\"Name\" = '" + termName + "');");
@@ -206,11 +208,11 @@ public class DataBaseLoader implements ILoadData {
         }
 
         public void openConnection() throws Exception {
-                if (c != null || st != null) {
-                    throw new ConnectionNotClosedException();
-                }
-                c = DriverManager.getConnection(url);
-                st = c.createStatement();
+            if (c != null || st != null) {
+                throw new ConnectionNotClosedException();
+            }
+            c = DriverManager.getConnection(url);
+            st = c.createStatement();
         }
 
         public void closeConnection() throws Exception {
@@ -221,7 +223,7 @@ public class DataBaseLoader implements ILoadData {
         }
 
         public ResultSet getResultSet(String query) throws Exception {
-               return st.executeQuery(query);
+            return st.executeQuery(query);
         }
 
         public void executeNonQuery(String query) throws Exception {
