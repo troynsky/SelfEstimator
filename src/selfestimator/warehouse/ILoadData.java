@@ -5,6 +5,7 @@ import selfestimator.corelogic.logic.Tag;
 import selfestimator.corelogic.logic.Term;
 import selfestimator.corelogic.logic.UserSkills;
 
+import java.util.List;
 import java.util.Map;
 
 public interface ILoadData {
@@ -29,4 +30,5 @@ public interface ILoadData {
     public UserSkills getUserSkills(String userName)throws Exception;
 
     public void saveAll() throws Exception;
+    public List<Term> getDependenceTermAndTag()throws Exception;
 }

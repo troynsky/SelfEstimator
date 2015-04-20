@@ -5,7 +5,6 @@ import selfestimator.corelogic.logic.Skill;
 import selfestimator.corelogic.logic.StockKeeper;
 import selfestimator.corelogic.logic.Tag;
 import selfestimator.corelogic.logic.Term;
-import selfestimator.warehouse.FileLoader;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -22,38 +21,46 @@ public class ConsoleUI implements IRunApplication {
     public void run(IConfig config) throws Exception {
         br = new BufferedReader(new InputStreamReader(System.in));
         String userName = getUserString("Представтесь, пожалуйста.");
-        config.setUserName(userName);
+        config.setUserName(userName.toLowerCase());
         keeper = new StockKeeper(config);
 
         while (true) {
-            String UserChoiseWhatToDo = getUserString("\nУкажите что хотите сделать:\r\n"
-                    + "1) Вывести на экран все термины и теги \r\n"
-                    + "2) Вывести на экран степень владения термином \r\n"
-                    + "3) Добавить термин \r\n"
-                    + "4) Добавить тэг \r\n"
-                    + "5) Добавить связь между термином и тэгом \r\n"
-                    + "6) Установить степень владения термином \r\n"
-                    + "7) Выход\r\n");
-            switch (UserChoiseWhatToDo) {
+            String userChooseWhatToDo = getUserString("\nУкажите что хотите сделать:\r\n"
+                    + "1) Вывести на экран все термины \r\n"
+                    + "2) Вывести на экран все теги \r\n"
+                    + "3) Вывести на экран степень владения термином \r\n"
+                    + "4) Вывести зависимости терминов и тегов (текущего пользователя) \r\n"
+                    + "5) Добавить термин \r\n"
+                    + "6) Добавить тэг \r\n"
+                    + "7) Добавить связь между термином и тэгом \r\n"
+                    + "8) Установить степень владения термином \r\n"
+                    + "9) Выход\r\n");
+            switch (userChooseWhatToDo) {
                 case "1":
-                    printTermsAndTags();
+                    printAllTerms();
                     break;
                 case "2":
-                    printUserSkills();
+                    printAllTags();
                     break;
                 case "3":
-                    addTermFromUser();
+                    printUserSkills();
                     break;
                 case "4":
-                    addTagFromUser();
+                    printDependenceTermsAndTags();
                     break;
                 case "5":
-                    addLinkTermTag();
+                    addTermFromUser();
                     break;
                 case "6":
-                    setSkillFromUser();
+                    addTagFromUser();
                     break;
                 case "7":
+                    addLinkTermTag();
+                    break;
+                case "8":
+                    setSkillFromUser();
+                    break;
+                case "9":
                     saveAll();
                     System.exit(0);
                 default:
@@ -62,19 +69,30 @@ public class ConsoleUI implements IRunApplication {
         }
     }
 
+    private void printDependenceTermsAndTags() throws Exception {
+        for(Term term : keeper.getDependenceTermsAndTags()){
+            System.out.print(term.getName() + " : ");
+            for(String tagName : term.getAllTagNames()){
+                System.out.print(tagName);
+            }
+            System.out.println();
+        }
+    }
+
+    private void printAllTags() throws Exception {
+        for (Tag tag : keeper.getTags()) {
+            System.out.print(tag.getName() + ", ");
+        }
+    }
+
     private void saveAll() throws Exception {
         keeper.saveAll();
     }
 
-    private void printTermsAndTags() throws Exception {
+    private void printAllTerms() throws Exception {
         for (Term term : keeper.getTerms()) {
-            System.out.print(term.getName() + " : ");
-            for (String tagName : term.getAllTagNames()) {
-                System.out.print(tagName + ", ");
-            }
-            System.out.println();
+            System.out.print(term.getName() + ", ");
         }
-        printTags(keeper.getTags());
     }
 
     private void printUserSkills() throws Exception {
@@ -104,7 +122,7 @@ public class ConsoleUI implements IRunApplication {
         printTerms(list);
         String userTerm = getUserString("Выберите термин !");
         for (Term term : keeper.getTerms()) {
-            if (userTerm.equals(term.getName())) {
+            if (userTerm.toLowerCase().equals(term.getName())) {
                 String skill = getUserString("Укажите степень владения термином");
                 keeper.setSkill(userTerm, Skill.getSkillByNumber(skill));
             }
@@ -113,22 +131,27 @@ public class ConsoleUI implements IRunApplication {
 
     private void addTermFromUser() throws Exception {
         String termFromUser = getUserString("Укажите добавляемый термин ?");
-        keeper.addTerm(termFromUser);
+        keeper.addTerm(termFromUser.toLowerCase());
 
     }
 
     private void addTagFromUser() throws Exception {
         String tagFromUser = getUserString("Укажите добавляемый тэг ?");
-        keeper.addTag(tagFromUser);
+        keeper.addTag(tagFromUser.toLowerCase());
     }
 
     private void addLinkTermTag() throws Exception {
         printTerms(keeper.getTerms());
-        String UserChoiseOfTerm = getUserString("Выбирите термин из списка");
+        String UserChooseOfTerm = getUserString("Выбирите термин из списка");
         printTags(keeper.getTags());
-        String UserChoiseOfTag = getUserString("Выбирите тэг из списка");
-        keeper.addTagToTerm(UserChoiseOfTag, UserChoiseOfTerm);
-        System.out.println("Связь добавлена между " + UserChoiseOfTag + " и " + UserChoiseOfTerm);
+        String UserChooseOfTag = getUserString("Выбирите тэг из списка");
+        try {
+            keeper.addTagToTerm(UserChooseOfTag.toLowerCase(), UserChooseOfTerm.toLowerCase());
+        } catch (org.postgresql.util.PSQLException e) {
+            System.out.println("Связь уже существует");
+            return;
+        }
+        System.out.println("Связь добавлена между " + UserChooseOfTag + " и " + UserChooseOfTerm);
 
     }
 

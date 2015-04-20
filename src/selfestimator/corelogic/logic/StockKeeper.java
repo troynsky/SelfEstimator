@@ -66,4 +66,8 @@ public class StockKeeper {
     public void saveAll() throws Exception{
         getLoader().saveAll();
     }
+
+    public List<Term> getDependenceTermsAndTags() throws Exception {
+        return loader.getDependenceTermAndTag();
+    }
 }

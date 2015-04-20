@@ -278,6 +278,11 @@ public class FileLoader implements ILoadData {
         saveAllData();
     }
 
+    @Override
+    public List<Term> getDependenceTermAndTag() throws Exception {
+        return null;
+    }
+
     private void saveAllData() throws Exception {
         //TODO: save all data
         saveCoreTags(coreTags);

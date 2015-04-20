@@ -5,6 +5,7 @@ import selfestimator.corelogic.logic.Tag;
 import selfestimator.corelogic.logic.Term;
 import selfestimator.corelogic.logic.UserSkills;
 
+import java.util.List;
 import java.util.Map;
 
 public class MockupLoader implements ILoadData{
@@ -87,5 +88,10 @@ public class MockupLoader implements ILoadData{
     @Override
     public void saveAll() throws Exception {
         /*NOP*/
+    }
+
+    @Override
+    public List<Term> getDependenceTermAndTag() throws Exception {
+        return null;
     }
 }

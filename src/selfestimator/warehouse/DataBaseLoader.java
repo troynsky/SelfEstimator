@@ -7,6 +7,8 @@ import selfestimator.corelogic.logic.Term;
 import selfestimator.corelogic.logic.UserSkills;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -48,30 +50,10 @@ public class DataBaseLoader implements ILoadData {
     public Map<String, Term> getTerms() throws Exception {
         Map<String, Term> resultMap = new TreeMap<>();
         queryWrapper.openConnection();
-        ResultSet terms = queryWrapper.getResultSet("SELECT \n"
-                + "\"Terms\".\"Name\" as \"TermName\", \n"
-                + "\"Tags\".\"Name\" as \"TagName\"\n"
-                + "  FROM \"Terms\" \n"
-                + "  INNER JOIN \"TermTags\" ON \"Terms\".\"Id\" = \"TermTags\".\"TermId\"\n"
-                + "  INNER JOIN \"Tags\" ON \"Tags\".\"Id\" = \"TermTags\".\"TagId\";");
+        ResultSet terms = queryWrapper.getResultSet("SELECT * FROM public.\"Terms\";");
         while (terms.next()) {
-            String newTermName = terms.getString("TermName");
-            Term term;
-            boolean exists = false;
-            for (String key : resultMap.keySet()) {
-                if (key.equals(newTermName)) {
-                    exists = true;
-                    break;
-                }
-            }
-            if (exists) {
-                term = resultMap.get(newTermName);
-            } else {
-                term = new Term(newTermName);
-                resultMap.put(newTermName, term);
-            }
-            Tag tag = new Tag(terms.getString("TagName"));
-            term.addTag(tag);
+            Term term = new Term(terms.getString("name"));
+            resultMap.put(term.getName(), term);
         }
         queryWrapper.closeConnection();
         return resultMap;
@@ -88,12 +70,35 @@ public class DataBaseLoader implements ILoadData {
         while (rs.next()) {
             userSkills.setSkill(rs.getString("Name"), Skill.getSkillByNumber(rs.getString("SkillValue")));
         }
+        queryWrapper.closeConnection();
         return userSkills;
     }
 
     @Override
     public void saveAll() throws Exception {
         /*NOP*/
+    }
+
+    @Override
+    public List<Term> getDependenceTermAndTag() throws Exception {
+        List<Term> list = new ArrayList<>();
+        queryWrapper.openConnection();
+        ResultSet rs = queryWrapper.getResultSet("SELECT \"Terms\".\"Name\" as \"TermName\", \"Tags\".\"Name\" as \"TagName\"\n" +
+                "FROM \"TermTags\" JOIN \"Terms\" ON \"TermTags\".\"TermId\" = \"Terms\".\"Id\"\n" +
+                "JOIN \"Tags\" ON \"TermTags\".\"TagId\" = \"Tags\".\"Id\"\n" +
+                "JOIN \"UserSkills\" ON \"UserSkills\".\"TermId\" = \"TermTags\".\"TermId\"\n" +
+                "WHERE \"UserSkills\".\"UserId\" = (SELECT \"Id\" FROM \"Users\" WHERE \"Name\"='" + loaderConfig.getUserName() + "');");
+        while (rs.next()) {
+            Term term = new Term(rs.getString("TermName"));
+            Tag tag = new Tag(rs.getString("TagName"));
+            term.addTag(tag);
+            if (!list.contains(term))
+                list.add(term);
+            else
+                list.get(list.size()-1).addTag(tag);
+        }
+        queryWrapper.closeConnection();
+        return list;
     }
 
     @Override
@@ -127,10 +132,8 @@ public class DataBaseLoader implements ILoadData {
                 + "AND \"TermId\" = " + termId + ";");
         queryWrapper.executeNonQuery("INSERT INTO public.\"UserSkills\" (\"UserId\", \"TermId\", \"SkillValue\") "
                 + "VALUES (" + userId + ", " + termId + ", " + skill + ")");
-
-
+        queryWrapper.closeConnection();
     }
-
 
     @Override
     public boolean deleteTagSoft(Tag tag) throws Exception {
@@ -197,48 +200,6 @@ public class DataBaseLoader implements ILoadData {
 
     }
 
-    private class DataBaseQueryWrapper {
-
-        String url;
-        Connection c = null;
-        Statement st = null;
-
-        public DataBaseQueryWrapper(String url) {
-            this.url = url;
-        }
-
-        public void openConnection() throws Exception {
-            if (c != null || st != null) {
-                throw new ConnectionNotClosedException();
-            }
-            c = DriverManager.getConnection(url);
-            st = c.createStatement();
-        }
-
-        public void closeConnection() throws Exception {
-            st.close();
-            c.close();
-            st = null;
-            c = null;
-        }
-
-        public ResultSet getResultSet(String query) throws Exception {
-            return st.executeQuery(query);
-        }
-
-        public void executeNonQuery(String query) throws Exception {
-            st.execute(query);
-        }
-
-        public boolean executeNonQueryNoException(String query) throws Exception {
-            st.execute(query);
-            return true;
-        }
-
-        private class ConnectionNotClosedException extends Exception {
-        }
-    }
-
     private int getOrInsertUserIdByName(String userName) throws Exception {
         queryWrapper.openConnection();
         ResultSet resultSet = queryWrapper.getResultSet("SELECT \"Id\" FROM \"Users\" WHERE \"Name\" = '" + userName + "'");
@@ -279,7 +240,7 @@ public class DataBaseLoader implements ILoadData {
     private int getTagId(Tag tag) throws Exception {
         queryWrapper.openConnection();
         String tagName = tag.getName();
-        ResultSet id = queryWrapper.getResultSet("SELECT \"Id\" FROM \"Terms\" WHERE \"Name\"='" + tagName + "'");
+        ResultSet id = queryWrapper.getResultSet("SELECT \"Id\" FROM \"Tags\" WHERE \"Name\"='" + tagName + "'");
         int num = 0;
         try {
             if (id.next()) {
@@ -288,6 +249,48 @@ public class DataBaseLoader implements ILoadData {
         } finally {
             queryWrapper.closeConnection();
             return num;
+        }
+    }
+
+    private class DataBaseQueryWrapper {
+
+        String url;
+        Connection c = null;
+        Statement st = null;
+
+        public DataBaseQueryWrapper(String url) {
+            this.url = url;
+        }
+
+        public void openConnection() throws Exception {
+            if (c != null || st != null) {
+                throw new ConnectionNotClosedException();
+            }
+            c = DriverManager.getConnection(url);
+            st = c.createStatement();
+        }
+
+        public void closeConnection() throws Exception {
+            st.close();
+            c.close();
+            st = null;
+            c = null;
+        }
+
+        public ResultSet getResultSet(String query) throws Exception {
+            return st.executeQuery(query);
+        }
+
+        public void executeNonQuery(String query) throws Exception {
+            st.execute(query);
+        }
+
+        public boolean executeNonQueryNoException(String query) throws Exception {
+            st.execute(query);
+            return true;
+        }
+
+        private class ConnectionNotClosedException extends Exception {
         }
     }
 }
