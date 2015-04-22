@@ -70,12 +70,12 @@ public class ConsoleUI implements IRunApplication {
     }
 
     private void printDependenceTermsAndTags() throws Exception {
-        for(Term term : keeper.getDependenceTermsAndTags()){
-            System.out.print(term.getName() + " : ");
-            for(String tagName : term.getAllTagNames()){
-                System.out.print(tagName);
+        for (Term term : keeper.getDependenceTermsAndTags()) {
+            StringBuilder sb = new StringBuilder();
+            for (String tagName : term.getAllTagNames()) {
+                sb.append(tagName + ", ");
             }
-            System.out.println();
+            System.out.println(term.getName() + " : " + sb.toString().substring(0, sb.toString().length() - 2));
         }
     }
 
@@ -99,7 +99,7 @@ public class ConsoleUI implements IRunApplication {
         for (Map.Entry<String, Skill> pair : keeper.getUserSkills().getSkills()) {
             String key = pair.getKey();
             Skill value = pair.getValue();
-            System.out.println(key + ";" + value.getValue());
+            System.out.println(key + " : " + value.getValue());
         }
     }
 
@@ -157,8 +157,9 @@ public class ConsoleUI implements IRunApplication {
 
     private void printTerms(List<Term> list) {
         for (Term term : list) {
-            System.out.println(term.getName());
+            System.out.print(term.getName() + ", ");
         }
+        System.out.println();
     }
 
     private void printTags(List<Tag> listTags) {

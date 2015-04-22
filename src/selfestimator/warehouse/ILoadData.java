@@ -14,13 +14,13 @@ public interface ILoadData {
     public void addTag(Tag tag)throws Exception;
     public boolean deleteTagSoft(Tag tag)throws Exception;
     public void deleteTagHard(Tag tag)throws Exception;
-    public Map<String, Tag> getTags()throws Exception;
+    public List<Tag> getTags()throws Exception;
     
     public void addTerm(Term term)throws Exception;
     public boolean deleteTermSoft(Term term)throws Exception;
     public void deleteTermHard(Term term)throws Exception;
     public void deleteTermFromAllTermTags(Term term)throws Exception;
-    public Map<String, Term> getTerms()throws Exception;
+    public List<Term> getTerms()throws Exception;
     
     public void addTagToTerm(Term term, Tag tag)throws Exception;
     public void deleteTagFromTerm(Term term, Tag tag)throws Exception;

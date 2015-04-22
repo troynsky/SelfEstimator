@@ -9,8 +9,6 @@ import selfestimator.corelogic.logic.UserSkills;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
 public class DataBaseLoader implements ILoadData {
 
@@ -33,30 +31,27 @@ public class DataBaseLoader implements ILoadData {
     }
 
     @Override
-    public Map<String, Tag> getTags() throws Exception {
-        Map<String, Tag> resultMap = new TreeMap<>();
+    public List<Tag> getTags() throws Exception {
+        List<Tag> list = new ArrayList<>();
         queryWrapper.openConnection();
         ResultSet tags = queryWrapper.getResultSet("SELECT * FROM public.\"Tags\";");
         while (tags.next()) {
-            Tag tag = new Tag(tags.getString("name"));
-            resultMap.put(tag.getName(), tag);
+            list.add(new Tag(tags.getString("name")));
         }
         queryWrapper.closeConnection();
-
-        return resultMap;
+        return list;
     }
 
     @Override
-    public Map<String, Term> getTerms() throws Exception {
-        Map<String, Term> resultMap = new TreeMap<>();
+    public List<Term> getTerms() throws Exception {
+        List<Term> list = new ArrayList<>();
         queryWrapper.openConnection();
         ResultSet terms = queryWrapper.getResultSet("SELECT * FROM public.\"Terms\";");
         while (terms.next()) {
-            Term term = new Term(terms.getString("name"));
-            resultMap.put(term.getName(), term);
+            list.add(new Term(terms.getString("name")));
         }
         queryWrapper.closeConnection();
-        return resultMap;
+        return list;
     }
 
     @Override
@@ -95,7 +90,7 @@ public class DataBaseLoader implements ILoadData {
             if (!list.contains(term))
                 list.add(term);
             else
-                list.get(list.size()-1).addTag(tag);
+                list.get(list.size() - 1).addTag(tag);
         }
         queryWrapper.closeConnection();
         return list;

@@ -1,1 +1,6 @@
 java
+microsoft
+oracle
+sun
+javascript
+sql

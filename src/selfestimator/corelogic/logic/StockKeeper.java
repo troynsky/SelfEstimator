@@ -37,11 +37,11 @@ public class StockKeeper {
     }
 
     public List<Term> getTerms() throws Exception {
-        return new ArrayList(getLoader().getTerms().values());
+        return getLoader().getTerms();
     }
 
     public List<Tag> getTags() throws Exception {
-        return new ArrayList(getLoader().getTags().values());
+        return getLoader().getTags();
     }
 
     public UserSkills getUserSkills() throws Exception {

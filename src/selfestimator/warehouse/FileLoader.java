@@ -12,24 +12,39 @@ import java.util.*;
 public class FileLoader implements ILoadData {
 
     private IConfigLoader loaderConfig;
-    private Map<String, Term> coreTerms;
-    private Map<String, Tag> coreTags;
-    private UserSkills userSkills;
+    private List<Term> coreTerms;
+    private List<Tag> coreTags;
+    private List<Term> coreTermTags;
+    private List<UserSkills> userSkills;
     private Date nextTimeToSave;
 
-    public FileLoader(IConfigLoader loaderConfig) {
+    public FileLoader(IConfigLoader loaderConfig) throws Exception {
         this.loaderConfig = loaderConfig;
-        coreTerms = new HashMap<>();
-        coreTags = new HashMap<>();
-        userSkills = new UserSkills(loaderConfig.getUserName());
+        coreTerms = loadCoreTerms();
+        coreTags = loadCoreTags();
+        coreTermTags = loadCoreTermTags();
+        userSkills = loadUserSkills();
     }
 
-    private Map<String, Tag> loadCoreTags() throws Exception {
-        HashMap<String, Tag> result = new HashMap<>();
+    private List<Term> loadCoreTerms() throws Exception {
+        List<Term> result = new ArrayList<>();
+        try {
+            List<String> termNames = getTermNamesFromFile();
+            for (String ss : termNames) {
+                result.add(new Term(ss));
+            }
+        } catch (FileNotFoundException ex) {
+            throw new Exception("unable to read terms: " + ex.getMessage());
+        }
+        return result;
+    }
+
+    private List<Tag> loadCoreTags() throws Exception {
+        List<Tag> result = new ArrayList<>();
         try {
             List<String> tagNames = getTagNamesFromFile();
             for (String ss : tagNames) {
-                result.put(ss, new Tag(ss));
+                result.add(new Tag(ss));
             }
         } catch (FileNotFoundException ex) {
             throw new Exception("unable to read tags: " + ex.getMessage());
@@ -37,61 +52,80 @@ public class FileLoader implements ILoadData {
         return result;
     }
 
-    /*
-     * Метод имеет множество допущений: формат файла, целостность данных
-     * и так далее. Мы верим, что всё будет хорошо. ^_^
-     * А когда всё неизбежно станет плохо - мы убежим к работе с БД.
-     */
-    private Map<String, Term> loadCoreTerms() throws Exception {
-        HashMap<String, Term> terms = new HashMap<>();
+    private List<Term> loadCoreTermTags() throws Exception {
+        List<Term> result = new ArrayList<>();
         try {
-            List<String> termNames = getTermNamesFromFile();
-            for (String ss : termNames) {
-                terms.put(ss, new Term(ss));
+            List<String> list = getTermTagsFromFile();
+            for (String s : list) {
+                String[] lines = s.split(":");
+                Term term = new Term(lines[0]);
+                String[] tagNames = lines[1].split(",");
+                for (String tagName : tagNames) {
+                    term.addTag(new Tag(tagName.trim()));
+                }
+                result.add(term);
             }
-        } catch (FileNotFoundException ex) {
-            throw new Exception("unable to read terms: " + ex.getMessage());
+        } catch (FileNotFoundException e) {
+            throw new Exception("unable to read termTags: " + e.getMessage());
         }
-
-        try {
-            List<String> termTags = getTermTagsFromFile();
-            for (String termTag : termTags) {
-                String[] splitted = termTag.split(";");
-                Term term = terms.get(splitted[0]);
-                term.addTag(new Tag(splitted[1]));
-            }
-        } catch (FileNotFoundException ex) {
-            throw new Exception("unable to read term tags: " + ex.getMessage());
-        } catch (NullPointerException e) {
-            throw e;
-        }
-
-        return terms;
+        return result;
     }
 
-    private void saveCoreTags(Map<String, Tag> tags) throws Exception {
+    private List<UserSkills> loadUserSkills() throws Exception {
+        List<UserSkills> result = new ArrayList<>();
+        try {
+            List<String> list = getUserSkillsFromFile();
+            for (String s : list) {
+                String[] lines = s.split(":");
+                UserSkills us = new UserSkills(lines[0]);
+                us.setSkill(lines[1], Skill.getSkillByNumber(lines[2]));
+                result.add(us);
+            }
+        } catch (FileNotFoundException e) {
+            throw new Exception("unable to read termTags: " + e.getMessage());
+        }
+        return result;
+    }
+
+    private void saveCoreTerms(List<Term> terms) throws Exception {
         List<String> list = new ArrayList<>();
-        for (Map.Entry<String, Tag> pair : tags.entrySet()) {
-            String key = pair.getKey();
-            list.add(key);
+        for (Term term : terms) {
+            list.add(term.getName());
+        }
+        write(loaderConfig.getTermFileName(), list);
+    }
+
+    private void saveCoreTags(List<Tag> tags) throws Exception {
+        List<String> list = new ArrayList<>();
+        for (Tag tag : tags) {
+            list.add(tag.getName());
         }
         write(loaderConfig.getTagFileName(), list);
     }
 
-    private void saveCoreTerms(Map<String, Term> terms) throws Exception {
-        List<String> termNames = new ArrayList<>();
-        List<String> termTags = new ArrayList<>();
-        for (Map.Entry<String, Term> pair : terms.entrySet()) {
-            String key = pair.getKey();
-            termNames.add(key);
-            Term term = pair.getValue();
-            for (String tagName : term.getAllTagNames()) {
-                termTags.add(term.getName() + ";" + tagName);
+    private void saveCoreTermTags(List<Term> termTags) throws Exception {
+        List<String> list = new ArrayList<>();
+        for (Term tt : termTags) {
+            StringBuilder sb = new StringBuilder();
+            for (String s : tt.getAllTagNames()) {
+                sb.append(s + ",");
+            }
+            String out = tt.getName() + ":" + sb.toString().substring(0, sb.toString().length() - 1);
+            list.add(out);
+        }
+        write(loaderConfig.getTermTagsFileName(), list);
+    }
+
+    private void saveUserSkills(List<UserSkills> userSkills) {
+        List<String> list = new ArrayList<>();
+        for (UserSkills userSkill : userSkills) {
+            for (Map.Entry<String, Skill> pair : userSkill.getSkills()) {
+                String key = pair.getKey();
+                Skill value = pair.getValue();
+                list.add(userSkill.getUserName() + ":" + key + ":" + value.getValue());
             }
         }
-        write(loaderConfig.getTermFileName(), termNames);
-        write(loaderConfig.getTermTagsFileName(), termTags);
-
+        write(loaderConfig.getUserSkillsFileName(), list);
     }
 
     private List<String> getTagNamesFromFile() throws FileNotFoundException {
@@ -104,6 +138,10 @@ public class FileLoader implements ILoadData {
 
     private List<String> getTermTagsFromFile() throws FileNotFoundException {
         return readAllLinesFromFile(loaderConfig.getTermTagsFileName());
+    }
+
+    private List<String> getUserSkillsFromFile() throws FileNotFoundException {
+        return readAllLinesFromFile(loaderConfig.getUserSkillsFileName());
     }
 
     private List<String> readAllLinesFromFile(String fileName) throws FileNotFoundException {
@@ -136,9 +174,10 @@ public class FileLoader implements ILoadData {
             if (!file.exists()) {
                 file.createNewFile();
             }
-            try (PrintWriter out = new PrintWriter(file.getAbsoluteFile())) {
+            try (FileWriter out = new FileWriter(file.getAbsoluteFile())) {
                 for (String ss : list) {
-                    out.println(ss);
+                    out.write(ss);
+                    out.write("\n");
                 }
             }
         } catch (IOException e) {
@@ -146,29 +185,19 @@ public class FileLoader implements ILoadData {
         }
     }
 
-    private void saveUserSkills(UserSkills userSkills) {
-        List<String> list = new ArrayList<>();
-        list.add(userSkills.getUserName());
-        for (Map.Entry<String, Skill> pair : userSkills.getSkills()) {
-            String key = pair.getKey();
-            Skill value = pair.getValue();
-            list.add(key + ";" + value.getValue());
-        }
-        write(loaderConfig.getUserSkillsFileName(), list);
+    private void saveAllData() throws Exception {
+        saveCoreTerms(coreTerms);
+        saveCoreTags(coreTags);
+        saveCoreTermTags(coreTermTags);
+        saveUserSkills(userSkills);
+        Calendar c = Calendar.getInstance();
+        c.setTime(new Date());
+        c.add(Calendar.MINUTE, 10);
+        nextTimeToSave = c.getTime();
     }
 
-    private UserSkills writeUserSkills(String userName) throws FileNotFoundException {
-        List<String> lines = readAllLinesFromFile(loaderConfig.getUserSkillsFileName());
-        UserSkills userSkills = new UserSkills(lines.get(0));
-        for (String ss : lines) {  //        for (String ss : lines.subList( 1, lines.size())){
-            if (ss == lines.get(0)) {
-                continue;
-            }
-            String[] splitted = ss.split(";");
-            Skill skill = Skill.getSkillByNumber(splitted[1]);
-            userSkills.setSkill(splitted[0], skill);
-        }
-        return userSkills;
+    private boolean timeToSave() {
+        return new Date().after(nextTimeToSave);
     }
 
     @Override
@@ -181,58 +210,67 @@ public class FileLoader implements ILoadData {
     }
 
     @Override
+    public void addTerm(Term term) throws Exception {
+        coreTerms.add(term);
+    }
+
+    @Override
     public void addTag(Tag tag) throws Exception {
-        coreTags.put(tag.getName(), tag);
+        coreTags.add(tag);
         if (timeToSave()) {
             saveAllData();
         }
     }
 
     @Override
-    public boolean deleteTagSoft(Tag tag) throws Exception {
-        if (!coreTags.containsKey(tag.getName())) {
-            return false;
-        }
-        coreTags.remove(tag.getName());
-        return true;
-
+    public void addTagToTerm(Term term, Tag tag) throws Exception {
+        term.addTag(tag);
+        coreTermTags.add(term);
     }
 
     @Override
-    public void deleteTagHard(Tag tag) throws Exception {
-        coreTags.remove(tag.getName());
-
-    }
-
-    @Override
-    public Map<String, Tag> getTags() throws Exception {
+    public List<Tag> getTags() throws Exception {
         return coreTags;
-
     }
 
     @Override
-    public void addTerm(Term term) throws Exception {
-        coreTerms.put(term.getName(), term);
+    public List<Term> getTerms() throws Exception {
+        return coreTerms;
     }
 
     @Override
     public boolean deleteTermSoft(Term term) throws Exception {
-        if (!coreTerms.containsKey(term.getName())) {
+        if (!coreTerms.contains(term)) {
             return false;
         } else {
-            coreTerms.remove(term.getName());
+            coreTerms.remove(term);
         }
         return true;
     }
 
     @Override
     public void deleteTermHard(Term term) throws Exception {
-        coreTerms.remove(term.getName());
+        coreTerms.remove(term);
+    }
+
+    @Override
+    public boolean deleteTagSoft(Tag tag) throws Exception {
+        if (!coreTags.contains(tag)) {
+            return false;
+        }
+        coreTags.remove(tag);
+        return true;
+
+    }
+
+    @Override
+    public void deleteTagHard(Tag tag) throws Exception {
+        coreTags.remove(tag);
     }
 
     @Override
     public void deleteTermFromAllTermTags(Term term) throws Exception {
-        if (!coreTerms.containsKey(term.getName())) {
+        if (!coreTerms.contains(term)) {
             return;
         } else {
             term.deleteAllTags();
@@ -240,37 +278,43 @@ public class FileLoader implements ILoadData {
     }
 
     @Override
-    public Map<String, Term> getTerms() throws Exception {
-       // if(userSkills.getUserName().equals())
-        return coreTerms;
-    }
-
-    @Override
-    public void addTagToTerm(Term term, Tag tag) throws Exception {
-        term.addTag(tag);
-    }
-
-    @Override
     public void deleteTagFromTerm(Term term, Tag tag) throws Exception {
-        term.deleteTag(tag);
+        if (!coreTerms.contains(term)) {
+            return;
+        } else {
+            for (Term coreTerm : coreTerms) {
+                if (coreTerm.equals(term))
+                    term.deleteTag(tag);
+            }
+        }
     }
 
     @Override
     public void deleteTagFromAllTerms(Tag tag) throws Exception {
-        for (Map.Entry<String, Term> pair : coreTerms.entrySet()) {
-            Term term = pair.getValue();
-            term.deleteTag(tag);
+        for (Term coreTermTag : coreTermTags) {
+            coreTermTag.deleteTag(tag);
         }
     }
 
     @Override
     public void setUserSkill(String userName, Term term, int skill) throws Exception {
-        userSkills.setSkill(term.getName(), Skill.getSkillByNumber(skill));
+        UserSkills us = new UserSkills(userName);
+        us.setSkill(term.getName(), Skill.getSkillByNumber(skill));
+        userSkills.add(us);
     }
 
     @Override
     public UserSkills getUserSkills(String userName) throws Exception {
-        return userSkills;
+        UserSkills us = new UserSkills(userName);
+        for (UserSkills userSkill : userSkills) {
+            if (userSkill.getUserName().equals(userName))
+                for (Map.Entry<String, Skill> pair : userSkill.getSkills()) {
+                    String key = pair.getKey();
+                    Skill value = pair.getValue();
+                    us.setSkill(key, value);
+                }
+        }
+        return us;
     }
 
     @Override
@@ -280,21 +324,7 @@ public class FileLoader implements ILoadData {
 
     @Override
     public List<Term> getDependenceTermAndTag() throws Exception {
-        return null;
+        return coreTermTags;
     }
 
-    private void saveAllData() throws Exception {
-        //TODO: save all data
-        saveCoreTags(coreTags);
-        saveCoreTerms(coreTerms);
-        saveUserSkills(userSkills);
-        Calendar c = Calendar.getInstance().getInstance();
-        c.setTime(new Date());
-        c.add(Calendar.MINUTE, 10);
-        nextTimeToSave = c.getTime();
-    }
-
-    private boolean timeToSave() {
-        return new Date().after(nextTimeToSave);
-    }
 }
