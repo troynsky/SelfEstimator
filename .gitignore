@@ -1,5 +1,5 @@
 .idea/workspace.xml
-configuration.properties
+#src/main/resources/configuration.properties
 
 ## Directory-based project format:
 #.idea/
