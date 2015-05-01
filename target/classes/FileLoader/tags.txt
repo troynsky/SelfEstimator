@@ -6,3 +6,4 @@ string
 rmi
 dropbox
 mustDie
+ubuntu

@@ -26,6 +26,54 @@ public class FileLoader implements ILoadData {
         userSkills = loadUserSkills();
     }
 
+    public FileLoader(IConfigLoader loaderConfig, List<Term> coreTerms, List<Tag> coreTags, List<Term> coreTermTags, List<UserSkills> userSkills) {
+        this.loaderConfig = loaderConfig;
+        this.coreTerms = coreTerms;
+        this.coreTags = coreTags;
+        this.coreTermTags = coreTermTags;
+        this.userSkills = userSkills;
+    }
+
+    public IConfigLoader getLoaderConfig() {
+        return loaderConfig;
+    }
+
+    public void setLoaderConfig(IConfigLoader loaderConfig) {
+        this.loaderConfig = loaderConfig;
+    }
+
+    public List<Term> getCoreTerms() {
+        return coreTerms;
+    }
+
+    public void setCoreTerms(List<Term> coreTerms) {
+        this.coreTerms = coreTerms;
+    }
+
+    public List<Tag> getCoreTags() {
+        return coreTags;
+    }
+
+    public void setCoreTags(List<Tag> coreTags) {
+        this.coreTags = coreTags;
+    }
+
+    public List<Term> getCoreTermTags() {
+        return coreTermTags;
+    }
+
+    public void setCoreTermTags(List<Term> coreTermTags) {
+        this.coreTermTags = coreTermTags;
+    }
+
+    public List<UserSkills> getUserSkills() {
+        return userSkills;
+    }
+
+    public void setUserSkills(List<UserSkills> userSkills) {
+        this.userSkills = userSkills;
+    }
+
     private List<Term> loadCoreTerms() throws Exception {
         List<Term> result = new ArrayList<>();
         try {

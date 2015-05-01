@@ -1,5 +1,6 @@
 package corelogic.logic;
 
+import config.Beans;
 import config.IConfigLoader;
 import warehouse.DataBaseLoader;
 import warehouse.FileLoader;
@@ -52,9 +53,9 @@ public class StockKeeper {
             return loader;
         switch (loaderConfig.getStorageType()) {
             case FileSystem:
-                return new FileLoader(loaderConfig);
+                return (FileLoader) Beans.getBean("FileLoader");
             case DataBase:
-                return new DataBaseLoader(loaderConfig);
+                return (DataBaseLoader) Beans.getBean("DataBaseLoader");
             case MockupLoader:
                 return new MockupLoader();
             default:
@@ -62,7 +63,7 @@ public class StockKeeper {
         }
     }
 
-    public void saveAll() throws Exception{
+    public void saveAll() throws Exception {
         getLoader().saveAll();
     }
 

@@ -16,7 +16,7 @@ public class DataBaseLoader implements ILoadData {
     private DataBaseQueryWrapper queryWrapper;
 
     public DataBaseLoader(IConfigLoader loaderConfig) throws Exception {
-        queryWrapper = new DataBaseQueryWrapper(loaderConfig.getDBConnectionString());
+        queryWrapper = new DataBaseQueryWrapper(loaderConfig.getDbConnectionString());
         try {
             Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException e) {

@@ -15,7 +15,6 @@ public class ConsoleUI implements IRunApplication {
 
     private BufferedReader br;
     private StockKeeper keeper;
-    private boolean haveToExit = false;
 
     @Override
     public void run(IConfig config) throws Exception {
@@ -144,12 +143,12 @@ public class ConsoleUI implements IRunApplication {
         String UserChooseOfTerm = getUserString("Выбирите термин из списка");
         printTags(keeper.getTags());
         String UserChooseOfTag = getUserString("Выбирите тэг из списка");
-//        try {
+        try {
             keeper.addTagToTerm(UserChooseOfTag.toLowerCase(), UserChooseOfTerm.toLowerCase());
-//        } catch (org.postgresql.util.PSQLException e) {
-//            System.out.println("Связь уже существует");
-//            return;
-//        }
+        } catch (org.postgresql.util.PSQLException e) {
+            System.out.println("Связь уже существует");
+            return;
+        }
         System.out.println("Связь добавлена между " + UserChooseOfTag + " и " + UserChooseOfTerm);
 
     }

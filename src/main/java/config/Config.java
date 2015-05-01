@@ -21,12 +21,12 @@ public class Config implements IConfig {
     }
 
     @Override
-    public String getDBConnectionString() {
+    public String getDbConnectionString() {
         return dbConnectionString;
     }
 
     @Override
-    public void setDBConnectionString(String dbConnectionString) {
+    public void setDbConnectionString(String dbConnectionString) {
         this.dbConnectionString = dbConnectionString;
     }
 

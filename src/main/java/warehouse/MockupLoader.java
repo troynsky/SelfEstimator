@@ -7,7 +7,7 @@ import corelogic.logic.UserSkills;
 
 import java.util.List;
 
-public class MockupLoader implements ILoadData{
+public class MockupLoader implements ILoadData {
 
 
     @Override

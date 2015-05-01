@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="configFileLoader" class="config.Config">
+        <property name="storageType">
+            <bean id="StorageTypeFS" class="config.StorageType" factory-method="valueOf">
+                <constructor-arg index="0" value="FileSystem"/>
+            </bean>
+        </property>
+        <property name="termFileName"
+                  value="/home/troy/IdeaProjects/SelfEstimator/src/main/resources/FileLoader/terms.txt"/>
+        <property name="tagFileName"
+                  value="/home/troy/IdeaProjects/SelfEstimator/src/main/resources/FileLoader/tags.txt"/>
+        <property name="termTagsFileName"
+                  value="/home/troy/IdeaProjects/SelfEstimator/src/main/resources/FileLoader/termTags.txt"/>
+        <property name="userSkillsFileName"
+                  value="/home/troy/IdeaProjects/SelfEstimator/src/main/resources/FileLoader/termSkills.txt"/>
+    </bean>
+
+    <bean id="configDataBaseLoader" class="config.Config">
+        <property name="storageType">
+            <bean id="StorageTypeDB" class="config.StorageType" factory-method="valueOf">
+                <constructor-arg index="0" value="DataBase"/>
+            </bean>
+        </property>
+        <property name="dbConnectionString"
+                  value="jdbc:postgresql://localhost:5432/postgres?user=postgres&amp;password=alex"/>
+    </bean>
+
+    <bean id="FileLoader" class="warehouse.FileLoader">
+        <constructor-arg ref="configFileLoader"/>
+    </bean>
+
+    <bean id="DataBaseLoader" class="warehouse.DataBaseLoader">
+        <constructor-arg ref="configDataBaseLoader"/>
+    </bean>
+
+</beans>
