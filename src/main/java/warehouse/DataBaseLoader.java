@@ -1,291 +1,404 @@
 package warehouse;
 
 import config.IConfigLoader;
-import corelogic.logic.Skill;
-import corelogic.logic.Tag;
-import corelogic.logic.Term;
-import corelogic.logic.UserSkills;
+import core.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 
-import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
+
 
 public class DataBaseLoader implements ILoadData {
 
+    private static final Logger logger = LogManager.getLogger(DataBaseLoader.class);
     private IConfigLoader loaderConfig;
-    private DataBaseQueryWrapper queryWrapper;
 
-    public DataBaseLoader(IConfigLoader loaderConfig) throws Exception {
-        queryWrapper = new DataBaseQueryWrapper(loaderConfig.getDbConnectionString());
-        try {
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
-            throw e;
-        }
+    public DataBaseLoader(IConfigLoader loaderConfig) {
         this.loaderConfig = loaderConfig;
     }
 
     @Override
     public void init(IConfigLoader loaderConfig) throws Exception {
-        getOrInsertUserIdByName(loaderConfig.getUserName());
+        saveUser(loaderConfig.getUserName());
     }
 
     @Override
     public List<Tag> getTags() throws Exception {
-        List<Tag> list = new ArrayList<>();
-        queryWrapper.openConnection();
-        ResultSet tags = queryWrapper.getResultSet("SELECT * FROM public.\"Tags\";");
-        while (tags.next()) {
-            list.add(new Tag(tags.getString("name")));
+        logger.debug("start to get all tags from DB");
+        Session session = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            logger.debug("all tags have been gotten");
+            return session.createCriteria(Tag.class).list();
+        } catch (HibernateException e) {
+            logger.error("exception on getting all tags from DB, {}", e);
+            System.exit(1);
+        } finally {
+            if (session != null)
+                session.close();
         }
-        queryWrapper.closeConnection();
-        return list;
+        return null;
     }
 
     @Override
     public List<Term> getTerms() throws Exception {
-        List<Term> list = new ArrayList<>();
-        queryWrapper.openConnection();
-        ResultSet terms = queryWrapper.getResultSet("SELECT * FROM public.\"Terms\";");
-        while (terms.next()) {
-            list.add(new Term(terms.getString("name")));
+        logger.debug("start to get all terms from DB");
+        Session session = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            logger.debug("all terms have been gotten");
+            return session.createCriteria(Term.class).list();
+        } catch (HibernateException e) {
+            logger.error("exception on getting all terms from DB, {}", e);
+            System.exit(1);
+        } finally {
+            if (session != null)
+                session.close();
         }
-        queryWrapper.closeConnection();
-        return list;
+        return null;
     }
 
     @Override
-    public UserSkills getUserSkills(String userName) throws Exception {
-        UserSkills userSkills = new UserSkills(userName);
-        queryWrapper.openConnection();
-        ResultSet rs = queryWrapper.getResultSet("SELECT \"Terms\".\"Name\", \"SkillValue\" FROM \"UserSkills\"\n"
-                + "INNER JOIN \"Terms\" ON \"Terms\".\"Id\" = \"TermId\"\n"
-                + "INNER JOIN \"Users\" ON \"Users\".\"Id\" = \"UserId\"\n"
-                + "WHERE \"Users\".\"Name\" = '" + userName + "';");
-        while (rs.next()) {
-            userSkills.setSkill(rs.getString("Name"), Skill.getSkillByNumber(rs.getString("SkillValue")));
+    public UserSkills getUserSkills(User user) throws Exception {
+        logger.debug("get userSkills for user: {}", user);
+        Session session = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            List<UserSkills> list = session.createQuery("FROM UserSkills WHERE user_id = ?").setParameter(0, getUserId(user)).list();
+            UserSkills us = new UserSkills(user);
+            for (UserSkills userSkills : list) {
+                us.getTermSkills().putAll(userSkills.getTermSkills());
+            }
+            logger.debug("all userSkills have been gotten");
+            return us;
+        } catch (HibernateException e) {
+            logger.error("exception on getting all userSkills from DB, {}", e);
+            System.exit(1);
+        } finally {
+            if (session != null)
+                session.close();
         }
-        queryWrapper.closeConnection();
-        return userSkills;
+        return null;
     }
 
     @Override
-    public void saveAll() throws Exception {
+    public void saveAll() {
         /*NOP*/
     }
 
     @Override
     public List<Term> getDependenceTermAndTag() throws Exception {
-        List<Term> list = new ArrayList<>();
-        queryWrapper.openConnection();
-        ResultSet rs = queryWrapper.getResultSet("SELECT \"Terms\".\"Name\" as \"TermName\", \"Tags\".\"Name\" as \"TagName\"\n" +
-                "FROM \"TermTags\" JOIN \"Terms\" ON \"TermTags\".\"TermId\" = \"Terms\".\"Id\"\n" +
-                "JOIN \"Tags\" ON \"TermTags\".\"TagId\" = \"Tags\".\"Id\"\n" +
-                "JOIN \"UserSkills\" ON \"UserSkills\".\"TermId\" = \"TermTags\".\"TermId\"\n" +
-                "WHERE \"UserSkills\".\"UserId\" = (SELECT \"Id\" FROM \"Users\" WHERE \"Name\"='" + loaderConfig.getUserName() + "');");
-        while (rs.next()) {
-            Term term = new Term(rs.getString("TermName"));
-            Tag tag = new Tag(rs.getString("TagName"));
-            term.addTag(tag);
-            if (!list.contains(term))
-                list.add(term);
-            else
-                list.get(list.size() - 1).addTag(tag);
+        logger.debug("start to get dependenceTermAndTag from DB");
+        Session session = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            logger.debug("dependencies have been gotten");
+            return session.createCriteria(Term.class).list();
+        } catch (HibernateException e) {
+            logger.error("exception on getting all dependenceTermAndTag from DB, {}", e);
+            System.exit(1);
+        } finally {
+            if (session != null)
+                session.close();
         }
-        queryWrapper.closeConnection();
-        return list;
+        return null;
     }
 
     @Override
     public void addTag(Tag tag) throws Exception {
-        queryWrapper.openConnection();
-        String tagName = tag.getName();
-        queryWrapper.executeNonQuery("INSERT INTO public.\"Tags\" (\"Name\") VALUES ('" + tagName + "');");
-        queryWrapper.closeConnection();
+        logger.debug("start to add new tag into DB");
+        Session session = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            List<Tag> list = session.createCriteria(Tag.class).list();
+            for (Tag result : list) {
+                if (result.getName().equals(tag.getName()))
+                    return;
+            }
+            session.beginTransaction();
+            session.save(tag);
+            session.getTransaction().commit();
+        } catch (HibernateException e) {
+            logger.error("exception on adding new tag or check for existing, {}", e);
+            System.exit(1);
+        } finally {
+            if (session != null)
+                session.close();
+        }
+        logger.debug("new tag has been added");
     }
 
     @Override
     public void addTerm(Term term) throws Exception {
-        queryWrapper.openConnection();
-        String termName = term.getName();
-        queryWrapper.executeNonQuery("INSERT INTO public.\"Terms\" (\"Name\") VALUES ('" + termName + "');");
-        queryWrapper.closeConnection();
-    }
-
-    @Override
-    public void setUserSkill(String userName, Term term, int skill) throws Exception {
-        int userId = getOrInsertUserIdByName(userName);
-        queryWrapper.openConnection();
-        String termName = term.getName();
-        ResultSet resultSet = queryWrapper.getResultSet("SELECT \"Id\" FROM public.\"Terms\" WHERE \"Name\" = '" + termName + "';");
-        int termId = -1;
-        if (resultSet.next()) {
-            termId = resultSet.getInt("id");
+        logger.debug("start to add new term into DB");
+        Session session = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            // find solution to do it (SELECT EXISTS(SELECT 1 FROM terms WHERE name = :termName).setString("termName", "'"+term.getName+"'"));
+            List<Term> list = session.createCriteria(Term.class).list();
+            for (Term result : list) {
+                if (result.getName().equals(term.getName()))
+                    return;
+            }
+            session.beginTransaction();
+            session.save(term);
+            session.getTransaction().commit();
+        } catch (HibernateException e) {
+            logger.error("exception on adding new term or check for existing, {}", e);
+            System.exit(1);
+        } finally {
+            if (session != null)
+                session.close();
         }
-        queryWrapper.executeNonQuery("DELETE FROM public.\"UserSkills\" "
-                + "WHERE \"UserId\"=" + userId + " "
-                + "AND \"TermId\" = " + termId + ";");
-        queryWrapper.executeNonQuery("INSERT INTO public.\"UserSkills\" (\"UserId\", \"TermId\", \"SkillValue\") "
-                + "VALUES (" + userId + ", " + termId + ", " + skill + ")");
-        queryWrapper.closeConnection();
+        logger.debug("new term has been added");
     }
 
     @Override
-    public boolean deleteTagSoft(Tag tag) throws Exception {
-        queryWrapper.openConnection();
-        String tagName = tag.getName();
-        boolean result = queryWrapper.executeNonQueryNoException("DELETE FROM public.\"Tags\" WHERE \"Name\" = '" + tagName + "');");
-        queryWrapper.closeConnection();
-        return result;
-    }
+    public void setUserSkill(User user, Term term, Skill skill) throws Exception {
+        logger.debug("Start to set userSkills for user {}", user.getName());
+        Session session = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            User resultUser = (User) session.get(User.class, getUserId(user));
+            UserSkills us = new UserSkills(resultUser);
+            session.save(us);
+            session.save(skill);
+            session.getTransaction().commit();
 
-    @Override
-    public void deleteTagHard(Tag tag) throws Exception {
-        deleteTagFromAllTerms(tag);
-        deleteTagSoft(tag);
-    }
-
-    @Override
-    public boolean deleteTermSoft(Term term) throws Exception {
-        queryWrapper.openConnection();
-        String termName = term.getName();
-        boolean result = queryWrapper.executeNonQueryNoException("DELETE FROM public.\"Terms\" WHERE (\"Name\" = '" + termName + "');");
-        queryWrapper.closeConnection();
-        return result;
-    }
-
-    @Override
-    public void deleteTermHard(Term term) throws Exception {
-        deleteTermFromAllTermTags(term);
-        deleteTermSoft(term);
+            session.beginTransaction();
+            Term resultTerm = (Term) session.get(Term.class, getTermId(term));
+            Skill resultSkill = (Skill) session.get(Skill.class, getSkillId(skill));
+            us.setSkill(resultTerm, resultSkill);
+            session.save(us);
+            session.getTransaction().commit();
+        } catch (HibernateException e) {
+            logger.error("exception on adding new userSkills or check for existing, {}", e);
+            System.exit(1);
+        } finally {
+            if (session != null)
+                session.close();
+        }
+        logger.debug("userSkills has been set");
     }
 
     @Override
     public void addTagToTerm(Term term, Tag tag) throws Exception {
-        int idTerm = getTermId(term);
-        int idTag = getTagId(tag);
-        queryWrapper.openConnection();
-        queryWrapper.executeNonQuery("INSERT INTO \"TermTags\" (\"TermId\",\"TagId\") VALUES ('" + idTerm + "','" + idTag + "')");
-        queryWrapper.closeConnection();
+        logger.debug("start to add tag({}) to term({})", tag.getName(), term.getName());
+        Session session = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            Tag resultTag = (Tag) session.get(Tag.class, getTagId(tag));
+            Term resultTerm = (Term) session.get(Term.class, getTermId(term));
+            resultTerm.addTag(resultTag);
+            session.saveOrUpdate(resultTerm);
+            session.getTransaction().commit();
+        } catch (HibernateException e) {
+            logger.error("exception on adding tag to term, {}", e);
+            System.exit(1);
+        } finally {
+            if (session != null)
+                session.close();
+        }
+        logger.debug("tag has been added to term");
+    }
+
+    private void saveUser(String userName) throws Exception {
+        logger.debug("start to save new user: {}", userName);
+        Session session = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            List<User> list = session.createCriteria(User.class).list();
+            for (User user : list) {
+                if (userName.equals(user.getName())) {
+                    logger.debug("this user: {} already exists", userName);
+                    return;
+                }
+            }
+            session.save(new User(userName));
+            session.getTransaction().commit();
+        } catch (HibernateException e) {
+            logger.error("exception on adding new user or check for existing");
+            System.exit(1);
+        } finally {
+            if (session != null)
+                session.close();
+        }
+        logger.debug("new user has been added");
+    }
+
+    private Long getTermId(Term term) {
+        Session session = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            Long res = (Long) session.createQuery("SELECT id FROM Term WHERE name= ?").setParameter(0, term.getName()).uniqueResult();
+            session.getTransaction().commit();
+            return res;
+        } catch (HibernateException e) {
+            logger.error("exception on get term id from DB, {}", e);
+            System.exit(1);
+        } finally {
+            if (session != null)
+                session.close();
+        }
+        return -1L;
+    }
+
+    private Long getTagId(Tag tag) {
+        Session session = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            Long res = (Long) session.createQuery("SELECT id FROM Tag WHERE name= ?").setParameter(0, tag.getName()).uniqueResult();
+            session.getTransaction().commit();
+            return res;
+        } catch (HibernateException e) {
+            logger.error("exception on get skill id from DB, {}", e);
+            System.exit(1);
+        } finally {
+            if (session != null)
+                session.close();
+        }
+        return -1L;
+    }
+
+    private Long getSkillId(Skill skill) {
+        Session session = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            Long res = (Long) session.createQuery("SELECT id FROM Skill WHERE skill_value= ?").setParameter(0, skill.getValue()).list().get(0);
+            session.getTransaction().commit();
+            return res;
+        } catch (HibernateException e) {
+            logger.error("exception on get skill id from DB, {}", e);
+            System.exit(1);
+        } finally {
+            if (session != null)
+                session.close();
+        }
+        return -1L;
+    }
+
+    private Long getUserId(User user) {
+        Session session = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            Long res = (Long) session.createQuery("SELECT id FROM User WHERE name = ? ").setString(0, user.getName()).uniqueResult();
+            session.getTransaction().commit();
+            return res;
+        } catch (HibernateException e) {
+            logger.error("exception on get user id from DB, {}", e);
+            System.exit(1);
+        } finally {
+            if (session != null)
+                session.close();
+        }
+        return -1L;
+    }
+
+    @Override
+    public boolean deleteTagSoft(Tag tag) throws Exception {
+        logger.debug("start to delete tag({}) soft", tag.getName());
+        Session session = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            Tag deletedTag = (Tag) session.get(Tag.class, getTagId(tag));
+            session.delete(deletedTag);
+            session.getTransaction().commit();
+        } catch (HibernateException e) {
+            logger.error("exception on removing tag soft from DB, {}", e);
+            System.exit(1);
+        } finally {
+            if (session != null)
+                session.close();
+        }
+        logger.debug("tag has been deleted");
+        return true;
+    }
+
+    @Override
+    public void deleteTagHard(Tag tag) throws Exception {
+
+    }
+
+    @Override
+    public boolean deleteTermSoft(Term term) throws Exception {
+        logger.debug("start to delete term({}) soft", term.getName());
+        Session session = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            Term deletedTerm = (Term) session.get(Term.class, getTermId(term));
+            session.delete(deletedTerm);
+            session.getTransaction().commit();
+        } catch (HibernateException e) {
+            logger.error("exception on removing term soft from DB, {}", e);
+            System.exit(1);
+        } finally {
+            if (session != null)
+                session.close();
+        }
+        logger.debug("term has been deleted");
+        return true;
+    }
+
+    @Override
+    public void deleteTermHard(Term term) throws Exception {
+
     }
 
     @Override
     public void deleteTagFromAllTerms(Tag tag) throws Exception {
-        int id = getTagId(tag);
-        queryWrapper.openConnection();
-        queryWrapper.executeNonQuery("DELETE FROM \"TermTags\" WHERE \"TagId\"= '" + id + "' ");
-        queryWrapper.closeConnection();
+
     }
 
     @Override
     public void deleteTermFromAllTermTags(Term term) throws Exception {
-        int id = getTermId(term);
-        queryWrapper.openConnection();
-        queryWrapper.executeNonQuery("DELETE FROM \"TermTags\" WHERE \"TermId\"= '" + id + "' ");
-        queryWrapper.closeConnection();
+
     }
 
     @Override
     public void deleteTagFromTerm(Term term, Tag tag) throws Exception {
-        int idTerm = getTermId(term);
-        int idTag = getTagId(tag);
-        queryWrapper.openConnection();
-        queryWrapper.executeNonQuery("DELETE FROM \"TermTags\" WHERE (\"TermId\" = '" + idTerm + "' AND \"TagId\" = '" + idTag + "') ");
-        queryWrapper.closeConnection();
 
     }
 
-    private int getOrInsertUserIdByName(String userName) throws Exception {
-        queryWrapper.openConnection();
-        ResultSet resultSet = queryWrapper.getResultSet("SELECT \"Id\" FROM \"Users\" WHERE \"Name\" = '" + userName + "'");
-        int id = 0;
-        try {
-            if (resultSet.next()) {
-                id = resultSet.getInt("Id");
-            } else {
-                queryWrapper.executeNonQuery("INSERT INTO \"Users\" (\"Name\") VALUES ('" + userName + "');");
-                resultSet = queryWrapper.getResultSet("SELECT MAX(\"Id\") FROM \"Users\";");
-                if (resultSet.next()) {
-                    id = resultSet.getInt(1);
-                } else {
-                    throw new SQLException("Щайтанама слущилься -  MAX(Id) ни хрена не вернул, вай-уляй!");
-                }
+    public static class HibernateUtil {
+
+        private static final SessionFactory sessionFactory = buildSessionFactory();
+
+        private HibernateUtil() {
+        }
+
+        private static SessionFactory buildSessionFactory() {
+            try {
+                return new Configuration().configure().buildSessionFactory();
+            } catch (Throwable ex) {
+                // Make sure you log the exception, as it might be swallowed
+                System.err.println("Initial SessionFactory creation failed." + ex);
+                throw new ExceptionInInitializerError(ex);
             }
-        } finally {
-            queryWrapper.closeConnection();
-            return id;
-        }
-    }
-
-    private int getTermId(Term term) throws Exception {
-        queryWrapper.openConnection();
-        String termName = term.getName();
-        ResultSet id = queryWrapper.getResultSet("SELECT \"Id\" FROM \"Terms\" WHERE \"Name\"='" + termName + "'");
-        int num = 0;
-        try {
-            if (id.next()) {
-                num = id.getInt("Id");
-            }
-        } finally {
-            queryWrapper.closeConnection();
-            return num;
-        }
-    }
-
-    private int getTagId(Tag tag) throws Exception {
-        queryWrapper.openConnection();
-        String tagName = tag.getName();
-        ResultSet id = queryWrapper.getResultSet("SELECT \"Id\" FROM \"Tags\" WHERE \"Name\"='" + tagName + "'");
-        int num = 0;
-        try {
-            if (id.next()) {
-                num = id.getInt("Id");
-            }
-        } finally {
-            queryWrapper.closeConnection();
-            return num;
-        }
-    }
-
-    private class DataBaseQueryWrapper {
-
-        String url;
-        Connection c = null;
-        Statement st = null;
-
-        public DataBaseQueryWrapper(String url) {
-            this.url = url;
         }
 
-        public void openConnection() throws Exception {
-            if (c != null || st != null) {
-                throw new ConnectionNotClosedException();
-            }
-            c = DriverManager.getConnection(url);
-            st = c.createStatement();
+        public static SessionFactory getSessionFactory() {
+            return sessionFactory;
         }
 
-        public void closeConnection() throws Exception {
-            st.close();
-            c.close();
-            st = null;
-            c = null;
-        }
-
-        public ResultSet getResultSet(String query) throws Exception {
-            return st.executeQuery(query);
-        }
-
-        public void executeNonQuery(String query) throws Exception {
-            st.execute(query);
-        }
-
-        public boolean executeNonQueryNoException(String query) throws Exception {
-            st.execute(query);
-            return true;
-        }
-
-        private class ConnectionNotClosedException extends Exception {
+        public static void shutdown() {
+            getSessionFactory().close();
         }
     }
 }

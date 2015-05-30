@@ -1,9 +1,7 @@
 package warehouse;
 
 import config.IConfigLoader;
-import corelogic.logic.Tag;
-import corelogic.logic.Term;
-import corelogic.logic.UserSkills;
+import core.*;
 
 import java.util.List;
 
@@ -76,17 +74,17 @@ public class MockupLoader implements ILoadData {
     }
 
     @Override
-    public void setUserSkill(String userName, Term term, int skill) throws Exception {
+    public void setUserSkill(User user, Term term, Skill skill) throws Exception {
 
     }
 
     @Override
-    public UserSkills getUserSkills(String userName) throws Exception {
+    public UserSkills getUserSkills(User user) throws Exception {
         return null;
     }
 
     @Override
-    public void saveAll() throws Exception {
+    public void saveAll() {
 
     }
 

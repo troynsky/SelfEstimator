@@ -1,44 +1,43 @@
 package warehouse;
 
 import config.IConfigLoader;
-import corelogic.logic.Tag;
-import corelogic.logic.Term;
-import corelogic.logic.UserSkills;
+import core.*;
 
 import java.util.List;
 
 public interface ILoadData {
-    public void init(IConfigLoader loaderConfig) throws Exception;
 
-    public void addTag(Tag tag) throws Exception;
+    void init(IConfigLoader loaderConfig) throws Exception;
 
-    public boolean deleteTagSoft(Tag tag) throws Exception;
+    void addTag(Tag tag) throws Exception;
 
-    public void deleteTagHard(Tag tag) throws Exception;
+    boolean deleteTagSoft(Tag tag) throws Exception;
 
-    public List<Tag> getTags() throws Exception;
+    void deleteTagHard(Tag tag) throws Exception;
 
-    public void addTerm(Term term) throws Exception;
+    List<Tag> getTags() throws Exception;
 
-    public boolean deleteTermSoft(Term term) throws Exception;
+    void addTerm(Term term) throws Exception;
 
-    public void deleteTermHard(Term term) throws Exception;
+    boolean deleteTermSoft(Term term) throws Exception;
 
-    public void deleteTermFromAllTermTags(Term term) throws Exception;
+    void deleteTermHard(Term term) throws Exception;
 
-    public List<Term> getTerms() throws Exception;
+    void deleteTermFromAllTermTags(Term term) throws Exception;
 
-    public void addTagToTerm(Term term, Tag tag) throws Exception;
+    List<Term> getTerms() throws Exception;
 
-    public void deleteTagFromTerm(Term term, Tag tag) throws Exception;
+    void addTagToTerm(Term term, Tag tag) throws Exception;
 
-    public void deleteTagFromAllTerms(Tag tag) throws Exception;
+    void deleteTagFromTerm(Term term, Tag tag) throws Exception;
 
-    public void setUserSkill(String userName, Term term, int skill) throws Exception;
+    void deleteTagFromAllTerms(Tag tag) throws Exception;
 
-    public UserSkills getUserSkills(String userName) throws Exception;
+    void setUserSkill(User user, Term term, Skill skill) throws Exception;
 
-    public void saveAll() throws Exception;
+    UserSkills getUserSkills(User user) throws Exception;
 
-    public List<Term> getDependenceTermAndTag() throws Exception;
+    void saveAll();
+
+    List<Term> getDependenceTermAndTag() throws Exception;
 }

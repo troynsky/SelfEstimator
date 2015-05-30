@@ -7,3 +7,4 @@ rmi
 dropbox
 mustDie
 ubuntu
+mobile_os

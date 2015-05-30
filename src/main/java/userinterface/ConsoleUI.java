@@ -1,10 +1,11 @@
 package userinterface;
 
 import config.IConfig;
-import corelogic.logic.Skill;
-import corelogic.logic.StockKeeper;
-import corelogic.logic.Tag;
-import corelogic.logic.Term;
+import core.Skill;
+import core.StockKeeper;
+import core.Tag;
+import core.Term;
+import warehouse.DataBaseLoader;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -19,7 +20,7 @@ public class ConsoleUI implements IRunApplication {
     @Override
     public void run(IConfig config) throws Exception {
         br = new BufferedReader(new InputStreamReader(System.in));
-        String userName = getUserString("Представтесь, пожалуйста.");
+        String userName = getUserString("Представьтесь, пожалуйста.");
         config.setUserName(userName.toLowerCase());
         keeper = new StockKeeper(config);
 
@@ -28,7 +29,7 @@ public class ConsoleUI implements IRunApplication {
                     + "1) Вывести на экран все термины \r\n"
                     + "2) Вывести на экран все теги \r\n"
                     + "3) Вывести на экран степень владения термином \r\n"
-                    + "4) Вывести зависимости терминов и тегов (текущего пользователя) \r\n"
+                    + "4) Вывести зависимости терминов и тегов \r\n"
                     + "5) Добавить термин \r\n"
                     + "6) Добавить тэг \r\n"
                     + "7) Добавить связь между термином и тэгом \r\n"
@@ -61,6 +62,7 @@ public class ConsoleUI implements IRunApplication {
                     break;
                 case "9":
                     saveAll();
+                    DataBaseLoader.HibernateUtil.shutdown();
                     System.exit(0);
                 default:
                     System.out.println("Вы ввели недопустимое число!");
@@ -74,7 +76,8 @@ public class ConsoleUI implements IRunApplication {
             for (String tagName : term.getAllTagNames()) {
                 sb.append(tagName + ", ");
             }
-            System.out.println(term.getName() + " : " + sb.toString().substring(0, sb.toString().length() - 2));
+            if (sb.length() > 3)
+                System.out.println(term.getName() + " : " + sb.toString().substring(0, sb.toString().length() - 2));
         }
     }
 
@@ -95,10 +98,10 @@ public class ConsoleUI implements IRunApplication {
     }
 
     private void printUserSkills() throws Exception {
-        for (Map.Entry<String, Skill> pair : keeper.getUserSkills().getSkills()) {
-            String key = pair.getKey();
+        for (Map.Entry<Term, Skill> pair : keeper.getUserSkills().getSkills()) {
+            Term key = pair.getKey();
             Skill value = pair.getValue();
-            System.out.println(key + " : " + value.getValue());
+            System.out.println(key.getName() + " : " + value.getValue());
         }
     }
 
@@ -117,13 +120,12 @@ public class ConsoleUI implements IRunApplication {
     }
 
     private void setSkillFromUser() throws Exception {
-        List<Term> list = keeper.getTerms();
-        printTerms(list);
+        printTerms(keeper.getTerms());
         String userTerm = getUserString("Выберите термин !");
         for (Term term : keeper.getTerms()) {
             if (userTerm.toLowerCase().equals(term.getName())) {
                 String skill = getUserString("Укажите степень владения термином");
-                keeper.setSkill(userTerm, Skill.getSkillByNumber(skill));
+                keeper.setSkill(userTerm, new Skill(skill));
             }
         }
     }
@@ -145,8 +147,9 @@ public class ConsoleUI implements IRunApplication {
         String UserChooseOfTag = getUserString("Выбирите тэг из списка");
         try {
             keeper.addTagToTerm(UserChooseOfTag.toLowerCase(), UserChooseOfTerm.toLowerCase());
-        } catch (org.postgresql.util.PSQLException e) {
+        } catch (Exception e) {
             System.out.println("Связь уже существует");
+            System.out.println(e);
             return;
         }
         System.out.println("Связь добавлена между " + UserChooseOfTag + " и " + UserChooseOfTerm);

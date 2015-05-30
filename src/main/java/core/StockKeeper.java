@@ -1,4 +1,4 @@
-package corelogic.logic;
+package core;
 
 import config.Beans;
 import config.IConfigLoader;
@@ -33,7 +33,7 @@ public class StockKeeper {
     }
 
     public void setSkill(String termName, Skill skill) throws Exception {
-        getLoader().setUserSkill(loaderConfig.getUserName(), new Term(termName), skill.getValue());
+        getLoader().setUserSkill(new User(loaderConfig.getUserName()), new Term(termName), skill);
     }
 
     public List<Term> getTerms() throws Exception {
@@ -45,10 +45,10 @@ public class StockKeeper {
     }
 
     public UserSkills getUserSkills() throws Exception {
-        return getLoader().getUserSkills(loaderConfig.getUserName());
+        return getLoader().getUserSkills(new User(loaderConfig.getUserName()));
     }
 
-    public ILoadData getLoader() throws Exception {
+    public ILoadData getLoader() {
         if (loader != null)
             return loader;
         switch (loaderConfig.getStorageType()) {

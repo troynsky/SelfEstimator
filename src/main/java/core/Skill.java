@@ -1,12 +1,6 @@
-package corelogic.logic;
+package core;
 
 public class Skill {
-
-    private int value = 0;
-
-    private Skill(int value) {
-        this.value = value;
-    }
 
     public static final Skill NONE = new Skill(0);
     public static final Skill HEARDABOUT = new Skill(10);
@@ -16,16 +10,34 @@ public class Skill {
     public static final Skill GURU = new Skill(90);
     public static final Skill GOD = new Skill(100);
 
+    private int value = 0;
+    private Long id;
+
+    protected Skill() {
+    }
+
+    public Skill(int value) {
+        this.value = value;
+    }
+
+    public Skill(String value) {
+        this.value = Integer.parseInt(value);
+    }
+
     public int getValue() {
         return value;
     }
 
-    public static Skill getSkillByNumber(String numberString) {
-        int num = Integer.parseInt(numberString);
-        return new Skill(num);
+    public void setValue(int value) {
+        this.value = value;
     }
 
-    public static Skill getSkillByNumber(int skill) {
-        return new Skill(skill);
+    public Long getId() {
+        return id;
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
 }

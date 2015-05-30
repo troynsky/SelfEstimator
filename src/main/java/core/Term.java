@@ -1,19 +1,43 @@
-package corelogic.logic;
+package core;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Term {
+    private Long id;
     private String name;
     private List<Tag> tags;
+
+    protected Term() {
+    }
 
     public Term(String name) {
         this.name = name;
         tags = new ArrayList<>();
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
     }
 
     public List<String> getAllTagNames() {
@@ -54,4 +78,6 @@ public class Term {
         result = 31 * result + (tags != null ? tags.hashCode() : 0);
         return result;
     }
+
+
 }

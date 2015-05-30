@@ -1,0 +1,393 @@
+13:02:11.629 [main] DEBUG SelfEstimator - Program start
+13:02:11.858 [main] DEBUG warehouse.FileLoader - Start loading all terms from file
+13:02:11.858 [main] DEBUG warehouse.FileLoader - Loaded all Terms
+13:02:11.858 [main] DEBUG warehouse.FileLoader - Start loading all tags from file
+13:02:11.858 [main] DEBUG warehouse.FileLoader - Loaded all tags
+13:02:11.858 [main] DEBUG warehouse.FileLoader - Start loading all terms with tags from file
+13:02:11.858 [main] DEBUG warehouse.FileLoader - Loaded all terms with tags
+13:02:11.858 [main] DEBUG warehouse.FileLoader - Start loading all user's skills from file
+13:02:11.859 [main] DEBUG warehouse.FileLoader - Loaded all user's skills
+13:02:13.686 [main] DEBUG warehouse.DataBaseLoader - start to save new user: alex
+13:02:14.337 [main] DEBUG warehouse.DataBaseLoader - this user: alex already exists
+13:02:20.764 [main] DEBUG warehouse.DataBaseLoader - start to get all terms from DB
+13:02:20.764 [main] DEBUG warehouse.DataBaseLoader - all terms have been gotten
+13:02:23.604 [main] DEBUG warehouse.DataBaseLoader - start to get all tags from DB
+13:02:23.604 [main] DEBUG warehouse.DataBaseLoader - all tags have been gotten
+13:02:29.068 [main] DEBUG warehouse.DataBaseLoader - start to add tag(hibernate) to term(java)
+13:02:29.225 [main] DEBUG warehouse.DataBaseLoader - tag has been added to term
+13:06:47.136 [main] DEBUG SelfEstimator - Program start
+13:06:47.377 [main] DEBUG warehouse.FileLoader - Start loading all terms from file
+13:06:47.377 [main] DEBUG warehouse.FileLoader - Loaded all Terms
+13:06:47.377 [main] DEBUG warehouse.FileLoader - Start loading all tags from file
+13:06:47.377 [main] DEBUG warehouse.FileLoader - Loaded all tags
+13:06:47.377 [main] DEBUG warehouse.FileLoader - Start loading all terms with tags from file
+13:06:47.378 [main] DEBUG warehouse.FileLoader - Loaded all terms with tags
+13:06:47.378 [main] DEBUG warehouse.FileLoader - Start loading all user's skills from file
+13:06:47.378 [main] DEBUG warehouse.FileLoader - Loaded all user's skills
+13:06:49.584 [main] DEBUG warehouse.DataBaseLoader - start to save new user: alex
+13:06:50.251 [main] DEBUG warehouse.DataBaseLoader - this user: alex already exists
+13:06:56.950 [main] DEBUG warehouse.DataBaseLoader - get userSkills for user: alex
+13:06:57.092 [main] DEBUG warehouse.DataBaseLoader - all userSkills have been gotten
+13:07:01.918 [main] DEBUG warehouse.DataBaseLoader - start to get dependenceTermAndTag from DB
+13:07:01.919 [main] DEBUG warehouse.DataBaseLoader - dependencies have been gotten
+13:07:18.511 [main] DEBUG SelfEstimator - Program start
+13:07:18.838 [main] DEBUG warehouse.FileLoader - Start loading all terms from file
+13:07:18.838 [main] DEBUG warehouse.FileLoader - Loaded all Terms
+13:07:18.838 [main] DEBUG warehouse.FileLoader - Start loading all tags from file
+13:07:18.838 [main] DEBUG warehouse.FileLoader - Loaded all tags
+13:07:18.838 [main] DEBUG warehouse.FileLoader - Start loading all terms with tags from file
+13:07:18.839 [main] DEBUG warehouse.FileLoader - Loaded all terms with tags
+13:07:18.839 [main] DEBUG warehouse.FileLoader - Start loading all user's skills from file
+13:07:18.839 [main] DEBUG warehouse.FileLoader - Loaded all user's skills
+13:07:20.612 [main] DEBUG warehouse.DataBaseLoader - start to save new user: alex
+13:07:21.307 [main] DEBUG warehouse.DataBaseLoader - this user: alex already exists
+13:07:22.906 [main] DEBUG warehouse.DataBaseLoader - start to get dependenceTermAndTag from DB
+13:07:22.907 [main] DEBUG warehouse.DataBaseLoader - dependencies have been gotten
+13:09:21.051 [main] DEBUG SelfEstimator - Program start
+13:09:21.392 [main] DEBUG warehouse.FileLoader - Start loading all terms from file
+13:09:21.392 [main] DEBUG warehouse.FileLoader - Loaded all Terms
+13:09:21.393 [main] DEBUG warehouse.FileLoader - Start loading all tags from file
+13:09:21.393 [main] DEBUG warehouse.FileLoader - Loaded all tags
+13:09:21.393 [main] DEBUG warehouse.FileLoader - Start loading all terms with tags from file
+13:09:21.393 [main] DEBUG warehouse.FileLoader - Loaded all terms with tags
+13:09:21.393 [main] DEBUG warehouse.FileLoader - Start loading all user's skills from file
+13:09:21.393 [main] DEBUG warehouse.FileLoader - Loaded all user's skills
+13:09:23.156 [main] DEBUG warehouse.DataBaseLoader - start to save new user: alex
+13:09:23.957 [main] DEBUG warehouse.DataBaseLoader - this user: alex already exists
+13:09:25.618 [main] DEBUG warehouse.DataBaseLoader - start to get dependenceTermAndTag from DB
+13:09:35.211 [main] DEBUG warehouse.DataBaseLoader - dependencies have been gotten
+13:12:45.303 [main] DEBUG SelfEstimator - Program start
+13:12:45.558 [main] DEBUG warehouse.FileLoader - Start loading all terms from file
+13:12:45.558 [main] DEBUG warehouse.FileLoader - Loaded all Terms
+13:12:45.559 [main] DEBUG warehouse.FileLoader - Start loading all tags from file
+13:12:45.559 [main] DEBUG warehouse.FileLoader - Loaded all tags
+13:12:45.559 [main] DEBUG warehouse.FileLoader - Start loading all terms with tags from file
+13:12:45.559 [main] DEBUG warehouse.FileLoader - Loaded all terms with tags
+13:12:45.559 [main] DEBUG warehouse.FileLoader - Start loading all user's skills from file
+13:12:45.559 [main] DEBUG warehouse.FileLoader - Loaded all user's skills
+13:12:47.545 [main] DEBUG warehouse.DataBaseLoader - start to save new user: alex
+13:12:48.204 [main] DEBUG warehouse.DataBaseLoader - this user: alex already exists
+13:12:49.535 [main] DEBUG warehouse.DataBaseLoader - start to get dependenceTermAndTag from DB
+13:12:49.535 [main] DEBUG warehouse.DataBaseLoader - dependencies have been gotten
+13:19:07.760 [main] DEBUG SelfEstimator - Program start
+13:19:08.124 [main] DEBUG warehouse.FileLoader - Start loading all terms from file
+13:19:08.124 [main] DEBUG warehouse.FileLoader - Loaded all Terms
+13:19:08.124 [main] DEBUG warehouse.FileLoader - Start loading all tags from file
+13:19:08.124 [main] DEBUG warehouse.FileLoader - Loaded all tags
+13:19:08.124 [main] DEBUG warehouse.FileLoader - Start loading all terms with tags from file
+13:19:08.125 [main] DEBUG warehouse.FileLoader - Loaded all terms with tags
+13:19:08.125 [main] DEBUG warehouse.FileLoader - Start loading all user's skills from file
+13:19:08.125 [main] DEBUG warehouse.FileLoader - Loaded all user's skills
+13:19:10.527 [main] DEBUG warehouse.DataBaseLoader - start to save new user: alex
+13:19:11.329 [main] DEBUG warehouse.DataBaseLoader - this user: alex already exists
+13:19:13.676 [main] DEBUG warehouse.DataBaseLoader - start to get dependenceTermAndTag from DB
+13:19:17.631 [main] DEBUG warehouse.DataBaseLoader - dependencies have been gotten
+13:21:10.202 [main] DEBUG SelfEstimator - Program start
+13:21:10.436 [main] DEBUG warehouse.FileLoader - Start loading all terms from file
+13:21:10.436 [main] DEBUG warehouse.FileLoader - Loaded all Terms
+13:21:10.436 [main] DEBUG warehouse.FileLoader - Start loading all tags from file
+13:21:10.436 [main] DEBUG warehouse.FileLoader - Loaded all tags
+13:21:10.436 [main] DEBUG warehouse.FileLoader - Start loading all terms with tags from file
+13:21:10.436 [main] DEBUG warehouse.FileLoader - Loaded all terms with tags
+13:21:10.436 [main] DEBUG warehouse.FileLoader - Start loading all user's skills from file
+13:21:10.437 [main] DEBUG warehouse.FileLoader - Loaded all user's skills
+13:21:12.246 [main] DEBUG warehouse.DataBaseLoader - start to save new user: alex
+13:21:12.912 [main] DEBUG warehouse.DataBaseLoader - this user: alex already exists
+13:21:14.612 [main] DEBUG warehouse.DataBaseLoader - start to get dependenceTermAndTag from DB
+13:21:14.613 [main] DEBUG warehouse.DataBaseLoader - dependencies have been gotten
+13:21:41.322 [main] DEBUG SelfEstimator - Program start
+13:21:41.715 [main] DEBUG warehouse.FileLoader - Start loading all terms from file
+13:21:41.715 [main] DEBUG warehouse.FileLoader - Loaded all Terms
+13:21:41.715 [main] DEBUG warehouse.FileLoader - Start loading all tags from file
+13:21:41.716 [main] DEBUG warehouse.FileLoader - Loaded all tags
+13:21:41.716 [main] DEBUG warehouse.FileLoader - Start loading all terms with tags from file
+13:21:41.716 [main] DEBUG warehouse.FileLoader - Loaded all terms with tags
+13:21:41.716 [main] DEBUG warehouse.FileLoader - Start loading all user's skills from file
+13:21:41.716 [main] DEBUG warehouse.FileLoader - Loaded all user's skills
+13:21:43.707 [main] DEBUG warehouse.DataBaseLoader - start to save new user: alex
+13:21:44.544 [main] DEBUG warehouse.DataBaseLoader - this user: alex already exists
+13:21:49.039 [main] DEBUG warehouse.DataBaseLoader - start to get dependenceTermAndTag from DB
+13:21:51.754 [main] DEBUG warehouse.DataBaseLoader - dependencies have been gotten
+13:27:36.281 [main] DEBUG SelfEstimator - Program start
+13:27:36.531 [main] DEBUG warehouse.FileLoader - Start loading all terms from file
+13:27:36.531 [main] DEBUG warehouse.FileLoader - Loaded all Terms
+13:27:36.531 [main] DEBUG warehouse.FileLoader - Start loading all tags from file
+13:27:36.531 [main] DEBUG warehouse.FileLoader - Loaded all tags
+13:27:36.531 [main] DEBUG warehouse.FileLoader - Start loading all terms with tags from file
+13:27:36.531 [main] DEBUG warehouse.FileLoader - Loaded all terms with tags
+13:27:36.531 [main] DEBUG warehouse.FileLoader - Start loading all user's skills from file
+13:27:36.532 [main] DEBUG warehouse.FileLoader - Loaded all user's skills
+13:27:38.380 [main] DEBUG warehouse.DataBaseLoader - start to save new user: alex
+13:27:39.042 [main] DEBUG warehouse.DataBaseLoader - this user: alex already exists
+13:27:39.930 [main] DEBUG warehouse.DataBaseLoader - start to get dependenceTermAndTag from DB
+13:27:39.930 [main] DEBUG warehouse.DataBaseLoader - dependencies have been gotten
+15:48:47.487 [main] DEBUG SelfEstimator - Program start
+15:48:47.929 [main] DEBUG warehouse.FileLoader - Start loading all terms from file
+15:48:47.930 [main] DEBUG warehouse.FileLoader - Loaded all Terms
+15:48:47.930 [main] DEBUG warehouse.FileLoader - Start loading all tags from file
+15:48:47.930 [main] DEBUG warehouse.FileLoader - Loaded all tags
+15:48:47.930 [main] DEBUG warehouse.FileLoader - Start loading all terms with tags from file
+15:48:47.930 [main] DEBUG warehouse.FileLoader - Loaded all terms with tags
+15:48:47.930 [main] DEBUG warehouse.FileLoader - Start loading all user's skills from file
+15:48:47.930 [main] DEBUG warehouse.FileLoader - Loaded all user's skills
+15:48:50.366 [main] DEBUG warehouse.DataBaseLoader - start to save new user: alex
+15:48:51.329 [main] DEBUG warehouse.DataBaseLoader - this user: alex already exists
+15:48:52.985 [main] DEBUG warehouse.DataBaseLoader - start to get all terms from DB
+15:48:52.985 [main] DEBUG warehouse.DataBaseLoader - all terms have been gotten
+15:49:01.908 [main] DEBUG warehouse.DataBaseLoader - start to get all tags from DB
+15:49:01.908 [main] DEBUG warehouse.DataBaseLoader - all tags have been gotten
+15:49:04.372 [main] DEBUG warehouse.DataBaseLoader - get userSkills for user: alex
+15:49:04.513 [main] DEBUG warehouse.DataBaseLoader - all userSkills have been gotten
+15:49:13.780 [main] DEBUG warehouse.DataBaseLoader - start to get dependenceTermAndTag from DB
+15:49:13.780 [main] DEBUG warehouse.DataBaseLoader - dependencies have been gotten
+15:49:54.944 [main] DEBUG warehouse.DataBaseLoader - start to add new term into DB
+15:49:54.987 [main] DEBUG warehouse.DataBaseLoader - new term has been added
+15:50:08.266 [main] DEBUG warehouse.DataBaseLoader - start to add new tag into DB
+15:50:08.278 [main] DEBUG warehouse.DataBaseLoader - new tag has been added
+15:50:13.709 [main] DEBUG warehouse.DataBaseLoader - start to get all terms from DB
+15:50:13.709 [main] DEBUG warehouse.DataBaseLoader - all terms have been gotten
+15:50:16.984 [main] DEBUG warehouse.DataBaseLoader - start to get all tags from DB
+15:50:16.984 [main] DEBUG warehouse.DataBaseLoader - all tags have been gotten
+15:50:23.183 [main] DEBUG warehouse.DataBaseLoader - start to add tag(macbook) to term(apple)
+15:50:23.214 [main] DEBUG warehouse.DataBaseLoader - tag has been added to term
+15:50:28.311 [main] DEBUG warehouse.DataBaseLoader - start to get all terms from DB
+15:50:28.311 [main] DEBUG warehouse.DataBaseLoader - all terms have been gotten
+15:50:31.719 [main] DEBUG warehouse.DataBaseLoader - start to get all terms from DB
+15:50:31.719 [main] DEBUG warehouse.DataBaseLoader - all terms have been gotten
+15:50:40.943 [main] DEBUG warehouse.DataBaseLoader - Start to set userSkills for user alex
+15:50:41.148 [main] DEBUG warehouse.DataBaseLoader - userSkills has been set
+15:50:46.503 [main] DEBUG warehouse.DataBaseLoader - start to get all terms from DB
+15:50:46.503 [main] DEBUG warehouse.DataBaseLoader - all terms have been gotten
+15:50:48.703 [main] DEBUG warehouse.DataBaseLoader - start to get all tags from DB
+15:50:48.703 [main] DEBUG warehouse.DataBaseLoader - all tags have been gotten
+15:50:50.527 [main] DEBUG warehouse.DataBaseLoader - get userSkills for user: alex
+15:50:50.538 [main] DEBUG warehouse.DataBaseLoader - all userSkills have been gotten
+15:50:55.887 [main] DEBUG warehouse.DataBaseLoader - start to get dependenceTermAndTag from DB
+15:50:55.888 [main] DEBUG warehouse.DataBaseLoader - dependencies have been gotten
+10:04:31.742 [main] DEBUG SelfEstimator - Program start
+10:04:32.100 [main] DEBUG warehouse.FileLoader - Start loading all terms from file
+10:04:32.101 [main] DEBUG warehouse.FileLoader - Loaded all Terms
+10:04:32.101 [main] DEBUG warehouse.FileLoader - Start loading all tags from file
+10:04:32.101 [main] DEBUG warehouse.FileLoader - Loaded all tags
+10:04:32.101 [main] DEBUG warehouse.FileLoader - Start loading all terms with tags from file
+10:04:32.102 [main] DEBUG warehouse.FileLoader - Loaded all terms with tags
+10:04:32.102 [main] DEBUG warehouse.FileLoader - Start loading all user's skills from file
+10:04:32.102 [main] DEBUG warehouse.FileLoader - Loaded all user's skills
+10:04:43.283 [main] DEBUG warehouse.DataBaseLoader - start to save new user: alex
+10:04:44.047 [main] DEBUG warehouse.DataBaseLoader - this user: alex already exists
+10:04:46.076 [main] DEBUG warehouse.DataBaseLoader - start to get all terms from DB
+10:04:46.076 [main] DEBUG warehouse.DataBaseLoader - all terms have been gotten
+10:04:57.139 [main] DEBUG warehouse.DataBaseLoader - start to get all tags from DB
+10:04:57.140 [main] DEBUG warehouse.DataBaseLoader - all tags have been gotten
+10:05:02.171 [main] DEBUG warehouse.DataBaseLoader - get userSkills for user: alex
+10:05:02.514 [main] DEBUG warehouse.DataBaseLoader - all userSkills have been gotten
+10:05:08.043 [main] DEBUG warehouse.DataBaseLoader - start to get dependenceTermAndTag from DB
+10:05:08.044 [main] DEBUG warehouse.DataBaseLoader - dependencies have been gotten
+10:05:20.319 [main] DEBUG warehouse.DataBaseLoader - start to add new term into DB
+10:05:20.362 [main] DEBUG warehouse.DataBaseLoader - new term has been added
+10:05:44.279 [main] DEBUG warehouse.DataBaseLoader - start to add new tag into DB
+10:05:44.292 [main] DEBUG warehouse.DataBaseLoader - new tag has been added
+10:05:51.571 [main] DEBUG warehouse.DataBaseLoader - start to get all terms from DB
+10:05:51.571 [main] DEBUG warehouse.DataBaseLoader - all terms have been gotten
+10:05:56.037 [main] DEBUG warehouse.DataBaseLoader - start to get all tags from DB
+10:05:56.037 [main] DEBUG warehouse.DataBaseLoader - all tags have been gotten
+10:06:01.218 [main] DEBUG warehouse.DataBaseLoader - start to add tag(mobile_os) to term(android)
+10:06:01.414 [main] DEBUG warehouse.DataBaseLoader - tag has been added to term
+10:06:15.611 [main] DEBUG warehouse.DataBaseLoader - start to get all terms from DB
+10:06:15.611 [main] DEBUG warehouse.DataBaseLoader - all terms have been gotten
+10:06:20.751 [main] DEBUG warehouse.DataBaseLoader - start to get all terms from DB
+10:06:20.751 [main] DEBUG warehouse.DataBaseLoader - all terms have been gotten
+10:06:24.311 [main] DEBUG warehouse.DataBaseLoader - Start to set userSkills for user alex
+10:06:24.522 [main] DEBUG warehouse.DataBaseLoader - userSkills has been set
+10:06:43.922 [main] DEBUG SelfEstimator - Program start
+10:06:44.352 [main] DEBUG warehouse.FileLoader - Start loading all terms from file
+10:06:44.353 [main] DEBUG warehouse.FileLoader - Loaded all Terms
+10:06:44.353 [main] DEBUG warehouse.FileLoader - Start loading all tags from file
+10:06:44.353 [main] DEBUG warehouse.FileLoader - Loaded all tags
+10:06:44.353 [main] DEBUG warehouse.FileLoader - Start loading all terms with tags from file
+10:06:44.354 [main] DEBUG warehouse.FileLoader - Loaded all terms with tags
+10:06:44.354 [main] DEBUG warehouse.FileLoader - Start loading all user's skills from file
+10:06:44.354 [main] DEBUG warehouse.FileLoader - Loaded all user's skills
+10:06:49.069 [main] DEBUG warehouse.DataBaseLoader - start to save new user: tester
+10:06:49.807 [main] DEBUG warehouse.DataBaseLoader - new user has been added
+10:06:52.963 [main] DEBUG warehouse.DataBaseLoader - start to get all terms from DB
+10:06:52.963 [main] DEBUG warehouse.DataBaseLoader - all terms have been gotten
+10:06:55.682 [main] DEBUG warehouse.DataBaseLoader - start to get all tags from DB
+10:06:55.683 [main] DEBUG warehouse.DataBaseLoader - all tags have been gotten
+10:06:58.834 [main] DEBUG warehouse.DataBaseLoader - get userSkills for user: tester
+10:06:58.965 [main] DEBUG warehouse.DataBaseLoader - all userSkills have been gotten
+10:07:05.994 [main] DEBUG warehouse.DataBaseLoader - start to get dependenceTermAndTag from DB
+10:07:05.995 [main] DEBUG warehouse.DataBaseLoader - dependencies have been gotten
+10:07:34.942 [main] DEBUG warehouse.DataBaseLoader - start to add new term into DB
+10:07:39.134 [main] DEBUG warehouse.DataBaseLoader - start to get all terms from DB
+10:07:39.135 [main] DEBUG warehouse.DataBaseLoader - all terms have been gotten
+10:07:50.830 [main] DEBUG warehouse.DataBaseLoader - start to add new tag into DB
+10:07:57.274 [main] DEBUG warehouse.DataBaseLoader - start to get all tags from DB
+10:07:57.274 [main] DEBUG warehouse.DataBaseLoader - all tags have been gotten
+10:08:12.169 [main] DEBUG warehouse.DataBaseLoader - start to get dependenceTermAndTag from DB
+10:08:12.170 [main] DEBUG warehouse.DataBaseLoader - dependencies have been gotten
+10:08:23.245 [main] DEBUG warehouse.DataBaseLoader - start to get all terms from DB
+10:08:23.246 [main] DEBUG warehouse.DataBaseLoader - all terms have been gotten
+10:08:26.589 [main] DEBUG warehouse.DataBaseLoader - start to get all tags from DB
+10:08:26.589 [main] DEBUG warehouse.DataBaseLoader - all tags have been gotten
+10:08:31.214 [main] DEBUG warehouse.DataBaseLoader - start to add tag(hibernate) to term(java)
+10:08:31.233 [main] DEBUG warehouse.DataBaseLoader - tag has been added to term
+10:08:37.302 [main] DEBUG warehouse.DataBaseLoader - start to get all terms from DB
+10:08:37.302 [main] DEBUG warehouse.DataBaseLoader - all terms have been gotten
+10:08:40.965 [main] DEBUG warehouse.DataBaseLoader - start to get all tags from DB
+10:08:40.965 [main] DEBUG warehouse.DataBaseLoader - all tags have been gotten
+10:08:46.981 [main] DEBUG warehouse.DataBaseLoader - start to add tag(hibernate) to term(java)
+10:08:46.988 [main] DEBUG warehouse.DataBaseLoader - tag has been added to term
+10:08:51.249 [main] DEBUG warehouse.DataBaseLoader - start to get dependenceTermAndTag from DB
+10:08:51.250 [main] DEBUG warehouse.DataBaseLoader - dependencies have been gotten
+10:13:20.504 [main] DEBUG warehouse.DataBaseLoader - start to get all terms from DB
+10:13:20.504 [main] DEBUG warehouse.DataBaseLoader - all terms have been gotten
+10:13:32.584 [main] DEBUG warehouse.DataBaseLoader - start to get all terms from DB
+10:13:32.584 [main] DEBUG warehouse.DataBaseLoader - all terms have been gotten
+10:13:36.816 [main] DEBUG warehouse.DataBaseLoader - Start to set userSkills for user tester
+10:13:36.855 [main] DEBUG warehouse.DataBaseLoader - userSkills has been set
+10:13:41.667 [main] DEBUG warehouse.DataBaseLoader - get userSkills for user: tester
+10:13:41.677 [main] DEBUG warehouse.DataBaseLoader - all userSkills have been gotten
+10:18:43.182 [main] DEBUG SelfEstimator - Program start
+10:18:43.404 [main] DEBUG warehouse.FileLoader - Start loading all terms from file
+10:18:43.404 [main] DEBUG warehouse.FileLoader - Loaded all Terms
+10:18:43.404 [main] DEBUG warehouse.FileLoader - Start loading all tags from file
+10:18:43.404 [main] DEBUG warehouse.FileLoader - Loaded all tags
+10:18:43.404 [main] DEBUG warehouse.FileLoader - Start loading all terms with tags from file
+10:18:43.404 [main] DEBUG warehouse.FileLoader - Loaded all terms with tags
+10:18:43.404 [main] DEBUG warehouse.FileLoader - Start loading all user's skills from file
+10:18:43.405 [main] DEBUG warehouse.FileLoader - Loaded all user's skills
+10:18:46.511 [main] DEBUG warehouse.DataBaseLoader - start to save new user: alex
+10:18:47.167 [main] DEBUG warehouse.DataBaseLoader - this user: alex already exists
+10:18:57.289 [main] DEBUG warehouse.DataBaseLoader - start to get all terms from DB
+10:18:57.290 [main] DEBUG warehouse.DataBaseLoader - all terms have been gotten
+10:19:01.665 [main] DEBUG warehouse.DataBaseLoader - start to get all tags from DB
+10:19:01.665 [main] DEBUG warehouse.DataBaseLoader - all tags have been gotten
+10:19:13.009 [main] DEBUG warehouse.DataBaseLoader - start to add tag(fdsf) to term(jada)
+10:27:08.597 [main] DEBUG SelfEstimator - Program start
+10:27:08.827 [main] DEBUG warehouse.FileLoader - Start loading all terms from file
+10:27:08.828 [main] DEBUG warehouse.FileLoader - Loaded all Terms
+10:27:08.828 [main] DEBUG warehouse.FileLoader - Start loading all tags from file
+10:27:08.828 [main] DEBUG warehouse.FileLoader - Loaded all tags
+10:27:08.828 [main] DEBUG warehouse.FileLoader - Start loading all terms with tags from file
+10:27:08.828 [main] DEBUG warehouse.FileLoader - Loaded all terms with tags
+10:27:08.828 [main] DEBUG warehouse.FileLoader - Start loading all user's skills from file
+10:27:08.828 [main] DEBUG warehouse.FileLoader - Loaded all user's skills
+10:27:33.479 [main] DEBUG warehouse.FileLoader - get user's skill for user: alex
+10:27:33.480 [main] DEBUG warehouse.FileLoader - user's skill got
+10:28:14.130 [main] DEBUG warehouse.FileLoader - add term: android
+10:28:14.130 [main] DEBUG warehouse.FileLoader - term added
+10:28:25.205 [main] DEBUG warehouse.FileLoader - add tag: mobile_os
+10:28:25.206 [main] DEBUG warehouse.FileLoader - tag added
+10:28:42.653 [main] DEBUG warehouse.FileLoader - add tag: mobile_os to term: android
+10:28:42.654 [main] DEBUG warehouse.FileLoader - tag to term added
+10:28:57.301 [main] DEBUG warehouse.FileLoader - set user's skill for user: alex, term: android, skill: core.Skill@124c278f
+10:28:57.301 [main] DEBUG warehouse.FileLoader - user's skill set
+10:29:01.345 [main] DEBUG warehouse.FileLoader - get user's skill for user: alex
+10:29:01.345 [main] DEBUG warehouse.FileLoader - user's skill got
+10:29:09.273 [main] INFO  warehouse.FileLoader - save all data
+10:29:09.273 [main] DEBUG warehouse.FileLoader - Start to save all data
+10:29:09.433 [main] DEBUG warehouse.FileLoader - Start saving all terms from heap
+10:29:09.434 [main] DEBUG warehouse.FileLoader - Saving terms done
+10:29:09.434 [main] DEBUG warehouse.FileLoader - Start saving all tags from heap
+10:29:09.435 [main] DEBUG warehouse.FileLoader - Saving tags done
+10:29:09.435 [main] DEBUG warehouse.FileLoader - Start saving all terms with tags from heap
+10:29:09.435 [main] DEBUG warehouse.FileLoader - Saving terms with tags done
+10:29:09.435 [main] DEBUG warehouse.FileLoader - Start saving all user's skills from heap
+10:29:09.435 [main] DEBUG warehouse.FileLoader - Saving user's skills done
+10:29:09.436 [main] DEBUG warehouse.FileLoader - Saving all data done
+10:29:09.436 [main] INFO  warehouse.FileLoader - all data saved
+10:29:13.317 [main] DEBUG SelfEstimator - Program start
+10:29:13.551 [main] DEBUG warehouse.FileLoader - Start loading all terms from file
+10:29:13.551 [main] DEBUG warehouse.FileLoader - Loaded all Terms
+10:29:13.551 [main] DEBUG warehouse.FileLoader - Start loading all tags from file
+10:29:13.552 [main] DEBUG warehouse.FileLoader - Loaded all tags
+10:29:13.552 [main] DEBUG warehouse.FileLoader - Start loading all terms with tags from file
+10:29:13.552 [main] DEBUG warehouse.FileLoader - Loaded all terms with tags
+10:29:13.552 [main] DEBUG warehouse.FileLoader - Start loading all user's skills from file
+10:29:13.552 [main] DEBUG warehouse.FileLoader - Loaded all user's skills
+10:29:26.538 [main] DEBUG warehouse.FileLoader - get user's skill for user: tester
+10:29:26.539 [main] DEBUG warehouse.FileLoader - user's skill got
+10:30:06.105 [main] DEBUG warehouse.FileLoader - add tag: maven to term: java
+10:30:06.105 [main] DEBUG warehouse.FileLoader - tag to term added
+10:30:31.225 [main] DEBUG warehouse.FileLoader - set user's skill for user: tester, term: java, skill: core.Skill@124c278f
+10:30:31.225 [main] DEBUG warehouse.FileLoader - user's skill set
+10:30:37.453 [main] DEBUG warehouse.FileLoader - set user's skill for user: tester, term: java, skill: core.Skill@15b204a1
+10:30:37.453 [main] DEBUG warehouse.FileLoader - user's skill set
+10:30:49.612 [main] DEBUG warehouse.FileLoader - get user's skill for user: tester
+10:30:49.613 [main] DEBUG warehouse.FileLoader - user's skill got
+10:30:57.132 [main] DEBUG warehouse.FileLoader - set user's skill for user: tester, term: java, skill: core.Skill@77167fb7
+10:30:57.133 [main] DEBUG warehouse.FileLoader - user's skill set
+10:31:04.701 [main] DEBUG warehouse.FileLoader - set user's skill for user: tester, term: java, skill: core.Skill@1fe20588
+10:31:04.701 [main] DEBUG warehouse.FileLoader - user's skill set
+10:31:12.688 [main] DEBUG warehouse.FileLoader - get user's skill for user: tester
+10:31:12.688 [main] DEBUG warehouse.FileLoader - user's skill got
+10:31:23.785 [main] INFO  warehouse.FileLoader - save all data
+10:31:23.785 [main] DEBUG warehouse.FileLoader - Start to save all data
+10:31:23.785 [main] DEBUG warehouse.FileLoader - Start saving all terms from heap
+10:31:23.786 [main] DEBUG warehouse.FileLoader - Saving terms done
+10:31:23.786 [main] DEBUG warehouse.FileLoader - Start saving all tags from heap
+10:31:23.786 [main] DEBUG warehouse.FileLoader - Saving tags done
+10:31:23.786 [main] DEBUG warehouse.FileLoader - Start saving all terms with tags from heap
+10:31:23.787 [main] DEBUG warehouse.FileLoader - Saving terms with tags done
+10:31:23.787 [main] DEBUG warehouse.FileLoader - Start saving all user's skills from heap
+10:31:23.787 [main] DEBUG warehouse.FileLoader - Saving user's skills done
+10:31:23.787 [main] DEBUG warehouse.FileLoader - Saving all data done
+10:31:23.788 [main] INFO  warehouse.FileLoader - all data saved
+10:48:46.291 [main] DEBUG SelfEstimator - Program start
+10:48:46.690 [main] DEBUG warehouse.FileLoader - Start loading all terms from file
+10:48:46.690 [main] DEBUG warehouse.FileLoader - Loaded all Terms
+10:48:46.690 [main] DEBUG warehouse.FileLoader - Start loading all tags from file
+10:48:46.691 [main] DEBUG warehouse.FileLoader - Loaded all tags
+10:48:46.691 [main] DEBUG warehouse.FileLoader - Start loading all terms with tags from file
+10:48:46.691 [main] DEBUG warehouse.FileLoader - Loaded all terms with tags
+10:48:46.691 [main] DEBUG warehouse.FileLoader - Start loading all user's skills from file
+10:48:46.691 [main] DEBUG warehouse.FileLoader - Loaded all user's skills
+10:51:33.673 [main] DEBUG warehouse.FileLoader - add tag: postgre to term: java
+10:51:33.674 [main] DEBUG warehouse.FileLoader - tag to term added
+10:51:59.148 [main] INFO  warehouse.FileLoader - save all data
+10:51:59.148 [main] DEBUG warehouse.FileLoader - Start to save all data
+10:51:59.148 [main] DEBUG warehouse.FileLoader - Start saving all terms from heap
+10:51:59.149 [main] DEBUG warehouse.FileLoader - Saving terms done
+10:51:59.149 [main] DEBUG warehouse.FileLoader - Start saving all tags from heap
+10:51:59.150 [main] DEBUG warehouse.FileLoader - Saving tags done
+10:51:59.150 [main] DEBUG warehouse.FileLoader - Start saving all terms with tags from heap
+10:51:59.150 [main] DEBUG warehouse.FileLoader - Saving terms with tags done
+10:51:59.150 [main] DEBUG warehouse.FileLoader - Start saving all user's skills from heap
+10:51:59.151 [main] DEBUG warehouse.FileLoader - Saving user's skills done
+10:51:59.151 [main] DEBUG warehouse.FileLoader - Saving all data done
+10:51:59.151 [main] INFO  warehouse.FileLoader - all data saved
+11:26:18.585 [main] DEBUG SelfEstimator - Program start
+11:26:18.823 [main] DEBUG warehouse.FileLoader - Start loading all terms from file
+11:26:18.824 [main] DEBUG warehouse.FileLoader - Loaded all Terms
+11:26:18.824 [main] DEBUG warehouse.FileLoader - Start loading all tags from file
+11:26:18.824 [main] DEBUG warehouse.FileLoader - Loaded all tags
+11:26:18.824 [main] DEBUG warehouse.FileLoader - Start loading all terms with tags from file
+11:26:18.824 [main] DEBUG warehouse.FileLoader - Loaded all terms with tags
+11:26:18.824 [main] DEBUG warehouse.FileLoader - Start loading all user's skills from file
+11:26:18.824 [main] DEBUG warehouse.FileLoader - Loaded all user's skills
+11:26:47.247 [main] DEBUG warehouse.FileLoader - add tag: postgre to term: java
+11:26:47.248 [main] DEBUG warehouse.FileLoader - tag to term added
+11:31:53.460 [main] INFO  warehouse.FileLoader - save all data
+11:31:53.460 [main] DEBUG warehouse.FileLoader - Start to save all data
+11:31:53.462 [main] DEBUG warehouse.FileLoader - Start saving all terms from heap
+11:31:53.463 [main] DEBUG warehouse.FileLoader - Saving terms done
+11:31:53.463 [main] DEBUG warehouse.FileLoader - Start saving all tags from heap
+11:31:53.464 [main] DEBUG warehouse.FileLoader - Saving tags done
+11:31:53.464 [main] DEBUG warehouse.FileLoader - Start saving all terms with tags from heap
+11:31:53.464 [main] DEBUG warehouse.FileLoader - Saving terms with tags done
+11:31:53.464 [main] DEBUG warehouse.FileLoader - Start saving all user's skills from heap
+11:31:53.465 [main] DEBUG warehouse.FileLoader - Saving user's skills done
+11:31:53.465 [main] DEBUG warehouse.FileLoader - Saving all data done
+11:31:53.465 [main] INFO  warehouse.FileLoader - all data saved
+11:37:20.519 [main] DEBUG SelfEstimator - Program start
+11:37:20.915 [main] DEBUG warehouse.FileLoader - Start loading all terms from file
+11:37:20.915 [main] DEBUG warehouse.FileLoader - Loaded all Terms
+11:37:20.915 [main] DEBUG warehouse.FileLoader - Start loading all tags from file
+11:37:20.915 [main] DEBUG warehouse.FileLoader - Loaded all tags
+11:37:20.916 [main] DEBUG warehouse.FileLoader - Start loading all terms with tags from file
+11:37:20.916 [main] DEBUG warehouse.FileLoader - Loaded all terms with tags
+11:37:20.916 [main] DEBUG warehouse.FileLoader - Start loading all user's skills from file
+11:37:20.916 [main] DEBUG warehouse.FileLoader - Loaded all user's skills
+11:37:59.410 [main] DEBUG warehouse.FileLoader - add tag: postgre to term: java
+11:38:27.839 [main] DEBUG warehouse.FileLoader - tag to term added

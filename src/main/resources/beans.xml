@@ -11,13 +11,13 @@
             </bean>
         </property>
         <property name="termFileName"
-                  value="/home/troy/IdeaProjects/SelfEstimator/src/main/resources/FileLoader/terms.txt"/>
+                  value="src/main/resources/FileLoader/terms.txt"/>
         <property name="tagFileName"
-                  value="/home/troy/IdeaProjects/SelfEstimator/src/main/resources/FileLoader/tags.txt"/>
+                  value="src/main/resources/FileLoader/tags.txt"/>
         <property name="termTagsFileName"
-                  value="/home/troy/IdeaProjects/SelfEstimator/src/main/resources/FileLoader/termTags.txt"/>
+                  value="src/main/resources/FileLoader/termTags.txt"/>
         <property name="userSkillsFileName"
-                  value="/home/troy/IdeaProjects/SelfEstimator/src/main/resources/FileLoader/termSkills.txt"/>
+                  value="src/main/resources/FileLoader/termSkills.txt"/>
     </bean>
 
     <bean id="configDataBaseLoader" class="config.Config">

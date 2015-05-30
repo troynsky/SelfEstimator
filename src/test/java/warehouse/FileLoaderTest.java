@@ -1,8 +1,7 @@
 package warehouse;
 
-import corelogic.logic.Tag;
-import corelogic.logic.Term;
-import corelogic.logic.UserSkills;
+import core.Tag;
+import core.Term;
 import org.junit.*;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;

@@ -2,3 +2,5 @@ alex:java:10
 alex:oracle:10
 dima:microsoft:50
 alex:linux:10
+alex:android:30
+tester:java:20

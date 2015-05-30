@@ -1,8 +1,12 @@
-package corelogic.logic;
+package core;
 
 public class Tag {
-
+    private Long id;
     private String name;
+    private Term term;
+
+    protected Tag() {
+    }
 
     public Tag(String name) {
         this.name = name;
@@ -10,6 +14,26 @@ public class Tag {
 
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Term getTerm() {
+        return term;
+    }
+
+    public void setTerm(Term term) {
+        this.term = term;
     }
 
     @Override

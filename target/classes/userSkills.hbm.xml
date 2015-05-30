@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="core">
+    <class name="UserSkills" table="userskills">
+        <id name="id" column="id">
+            <generator class="native"/>
+        </id>
+        <many-to-one name="user" column="user_id" class="User" cascade="all"/>
+        <map name="termSkills" table="termskills" lazy="false" fetch="join" cascade="all">
+            <key column="id"/>
+            <map-key-many-to-many class="Term" column="term_id"/>
+            <many-to-many class="Skill" column="skill_id"/>
+        </map>
+    </class>
+</hibernate-mapping>

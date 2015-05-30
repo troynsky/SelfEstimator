@@ -1,4 +1,4 @@
-package corelogic.logic;
+package core;
 
 import config.Config;
 import config.IConfigLoader;

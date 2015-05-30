@@ -1,3 +1,4 @@
 java:maven,rmi,string
 microsoft:mustdie
 linux:ubuntu
+android:mobile_os
