@@ -7,6 +7,7 @@ import warehouse.FileLoader;
 import warehouse.ILoadData;
 import warehouse.MockupLoader;
 
+import java.util.Collections;
 import java.util.List;
 
 public class StockKeeper {
@@ -37,11 +38,15 @@ public class StockKeeper {
     }
 
     public List<Term> getTerms() throws Exception {
-        return getLoader().getTerms();
+        List<Term> list = getLoader().getTerms();
+        Collections.sort(list);
+        return list;
     }
 
     public List<Tag> getTags() throws Exception {
-        return getLoader().getTags();
+        List<Tag> list = getLoader().getTags();
+        Collections.sort(list);
+        return list;
     }
 
     public UserSkills getUserSkills() throws Exception {

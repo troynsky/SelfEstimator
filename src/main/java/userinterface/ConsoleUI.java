@@ -9,7 +9,6 @@ import warehouse.DataBaseLoader;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.List;
 import java.util.Map;
 
 public class ConsoleUI implements IRunApplication {
@@ -77,13 +76,17 @@ public class ConsoleUI implements IRunApplication {
                 sb.append(tagName + ", ");
             }
             if (sb.length() > 3)
-                System.out.println(term.getName() + " : " + sb.toString().substring(0, sb.toString().length() - 2));
+                System.out.println(term.getName() + " : " + sb.toString().substring(0, sb.length() - 2));
         }
     }
 
     private void printAllTags() throws Exception {
+        StringBuilder sb = new StringBuilder();
         for (Tag tag : keeper.getTags()) {
-            System.out.print(tag.getName() + ", ");
+            sb.append(tag.getName() + ", ");
+        }
+        if (sb.length() > 3) {
+            System.out.println("\n" + sb.toString().substring(0, sb.length() - 2));
         }
     }
 
@@ -92,8 +95,12 @@ public class ConsoleUI implements IRunApplication {
     }
 
     private void printAllTerms() throws Exception {
+        StringBuilder sb = new StringBuilder();
         for (Term term : keeper.getTerms()) {
-            System.out.print(term.getName() + ", ");
+            sb.append(term.getName() + ", ");
+        }
+        if (sb.length() > 3) {
+            System.out.println("\n" + sb.toString().substring(0, sb.length() - 2));
         }
     }
 
@@ -120,12 +127,13 @@ public class ConsoleUI implements IRunApplication {
     }
 
     private void setSkillFromUser() throws Exception {
-        printTerms(keeper.getTerms());
-        String userTerm = getUserString("Выберите термин !");
+        printAllTerms();
+        String userTerm = getUserString("Выберите термин");
         for (Term term : keeper.getTerms()) {
             if (userTerm.toLowerCase().equals(term.getName())) {
                 String skill = getUserString("Укажите степень владения термином");
                 keeper.setSkill(userTerm, new Skill(skill));
+                System.out.println("Степень владения установлена");
             }
         }
     }
@@ -141,9 +149,9 @@ public class ConsoleUI implements IRunApplication {
     }
 
     private void addLinkTermTag() throws Exception {
-        printTerms(keeper.getTerms());
+        printAllTerms();
         String UserChooseOfTerm = getUserString("Выбирите термин из списка");
-        printTags(keeper.getTags());
+        printAllTags();
         String UserChooseOfTag = getUserString("Выбирите тэг из списка");
         try {
             keeper.addTagToTerm(UserChooseOfTag.toLowerCase(), UserChooseOfTerm.toLowerCase());
@@ -153,20 +161,6 @@ public class ConsoleUI implements IRunApplication {
             return;
         }
         System.out.println("Связь добавлена между " + UserChooseOfTag + " и " + UserChooseOfTerm);
-
     }
 
-    private void printTerms(List<Term> list) {
-        for (Term term : list) {
-            System.out.print(term.getName() + ", ");
-        }
-        System.out.println();
-    }
-
-    private void printTags(List<Tag> listTags) {
-        for (Tag tag : listTags) {
-            System.out.print(tag.getName() + ", ");
-        }
-        System.out.println();
-    }
 }

@@ -1,7 +1,7 @@
 package core;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class UserSkills {
     private Long id;
@@ -13,7 +13,7 @@ public class UserSkills {
 
     public UserSkills(User user) {
         this.user = user;
-        termSkills = new HashMap<>();
+        termSkills = new TreeMap<>();
     }
 
     public Long getId() {

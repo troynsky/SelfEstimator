@@ -1,6 +1,6 @@
 package core;
 
-public class Tag {
+public class Tag implements Comparable<Tag> {
     private Long id;
     private String name;
     private Term term;
@@ -51,5 +51,10 @@ public class Tag {
     @Override
     public int hashCode() {
         return name != null ? name.hashCode() : 0;
+    }
+
+    @Override
+    public int compareTo(Tag o) {
+       return this.getName().compareTo(o.getName());
     }
 }

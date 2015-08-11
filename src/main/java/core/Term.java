@@ -3,7 +3,7 @@ package core;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Term {
+public class Term implements Comparable<Term> {
     private Long id;
     private String name;
     private List<Tag> tags;
@@ -79,5 +79,8 @@ public class Term {
         return result;
     }
 
-
+    @Override
+    public int compareTo(Term o) {
+        return this.getName().compareTo(o.getName());
+    }
 }
